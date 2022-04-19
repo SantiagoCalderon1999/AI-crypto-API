@@ -1,9 +1,10 @@
-package com.cryptoai.javaapi.binanceconnection;
+package com.cryptoai.javaapi.binanceconnection.binanceconnection;
 
 import com.binance.api.client.BinanceApiClientFactory;
 import com.binance.api.client.BinanceApiRestClient;
 import com.binance.api.client.domain.market.Candlestick;
 import com.binance.api.client.domain.market.CandlestickInterval;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -11,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TreeMap;
 
-public class CandlestickRetrieval {
+public class CandlestickRetriever {
 
     private String symbol;
 
@@ -25,7 +26,7 @@ public class CandlestickRetrieval {
 
     private TreeMap<Long, Candlestick> candlesticksCache;
 
-    public CandlestickRetrieval(){
+    public CandlestickRetriever(){
 
         // Set by default 500, the maximum number is 1000
         this.candlestickLimit = 500;

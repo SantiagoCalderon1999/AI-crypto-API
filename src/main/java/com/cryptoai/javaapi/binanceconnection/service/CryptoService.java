@@ -1,45 +1,28 @@
-package com.cryptoai.javaapi;
+package com.cryptoai.javaapi.binanceconnection.service;
 
 import com.binance.api.client.domain.market.Candlestick;
 import com.binance.api.client.domain.market.CandlestickInterval;
 import com.cryptoai.javaapi.binanceconnection.binanceconnection.CandlestickRetriever;
+import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TreeMap;
 
-public class BinanceConnectionCandlestickTest {
+@Service
+public class CryptoService {
 
-    public static void main(String[] args) {
 
-        TreeMap<Long, Candlestick> candlestickMap = candleStickInitialization();
-
-        // print the information retrieved from the API
-        System.out.println(candlestickMap);
-
-        Date startDate = new Date(candlestickMap.firstKey());
-
-        Date endDate = new Date(candlestickMap.lastKey());
-
-        // log start date and end date for comparing purposes
-        System.out.println("\nStart Date: " + startDate);
-        System.out.println(candlestickMap.get(candlestickMap.firstKey()));
-
-        System.out.println("\nEnd Date: " + endDate);
-        System.out.println(candlestickMap.get(candlestickMap.lastKey()));
-
-    }
-
-    private static TreeMap<Long, Candlestick> candleStickInitialization() {
+    public static TreeMap<Long, Candlestick> candleStickInitialization(String symbol, String startDate) {
         CandlestickRetriever candlestickRetriever = new CandlestickRetriever();
 
         // set symbol of cryptocurrency pair
         //               interval between each Candlestick
         //               start time
         //               end time
-        candlestickRetriever.setSymbol("BTCUSDT");
+        candlestickRetriever.setSymbol(symbol);
         candlestickRetriever.setInterval(CandlestickInterval.FIFTEEN_MINUTES);
-        candlestickRetriever.setStartTime("16-April-2022");
+        candlestickRetriever.setStartTime(startDate);
         String currentDate = new SimpleDateFormat("dd-MMM-yyyy").format(new Date());
         candlestickRetriever.setEndTime(currentDate);
 
@@ -50,5 +33,4 @@ public class BinanceConnectionCandlestickTest {
         TreeMap<Long, Candlestick> candlestickMap = candlestickRetriever.getCandlesticksCache();
         return candlestickMap;
     }
-
 }
