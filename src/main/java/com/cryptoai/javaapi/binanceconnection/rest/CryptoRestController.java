@@ -32,7 +32,7 @@ public class CryptoRestController {
         try{
             dateFormat.parse(startDate);
         } catch(ParseException e){
-            throw new CryptoWrongDateFormatException("Wrong data format - " + startDate);
+            throw new CryptoWrongDateFormatException("Wrong date format - " + startDate);
         }
 
         TreeMap<Long, Candlestick> candlestickMap = cryptoService.candleStickInitialization(symbol, startDate);
