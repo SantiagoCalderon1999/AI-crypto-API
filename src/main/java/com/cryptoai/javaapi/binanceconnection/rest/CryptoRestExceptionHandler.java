@@ -11,7 +11,6 @@ public class CryptoRestExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<CryptoErrorResponse> handleException(Exception exception){
 
-        // create CustomerErrorResponse
 
         CryptoErrorResponse error = new CryptoErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
@@ -19,7 +18,7 @@ public class CryptoRestExceptionHandler {
                 System.currentTimeMillis()
         );
 
-        // return ResponseEntity
+
 
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
