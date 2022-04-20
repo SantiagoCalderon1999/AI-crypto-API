@@ -7,6 +7,9 @@ import com.cryptoai.javaapi.binanceconnection.service.CryptoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.TreeMap;
 
 @RestController
@@ -21,6 +24,17 @@ public class CryptoRestController {
 
     @GetMapping("/crypto/{symbol}/{startDate}")
     public Result getCryptoData(@PathVariable String symbol, @PathVariable String startDate){
+
+        // throw exception if Date format is not right
+        DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
+        dateFormat.setLenient(false);
+
+        try{
+            dateFormat.parse(startDate);
+        } catch(ParseException e){
+            throw new CryptoWrongDateFormatException("Wrong data format - " + startDate);
+        }
+
         TreeMap<Long, Candlestick> candlestickMap = cryptoService.candleStickInitialization(symbol, startDate);
         Analyzer theAnalyzer = new Analyzer(candlestickMap);
         Result theResult = new Result(theAnalyzer.getClose());
