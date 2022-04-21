@@ -27,30 +27,30 @@
         <!-- Add RL dependencies -->
 
         <dependency>
-            <groupId>ai.djl</groupId>
-            <artifactId>api</artifactId>
-            <version>0.8.0</version>
+            <groupId>org.deeplearning4j</groupId>
+            <artifactId>rl4j</artifactId>
+            <version>1.0.0-M1.1</version>
+            <type>pom</type>
         </dependency>
 
         <dependency>
-            <groupId>ai.djl.mxnet</groupId>
-            <artifactId>mxnet-engine</artifactId>
-            <version>0.8.0</version>
-            <scope>runtime</scope>
+            <groupId>org.deeplearning4j</groupId>
+            <artifactId>rl4j-api</artifactId>
+            <version>1.0.0-M1.1</version>
         </dependency>
 
         <dependency>
-            <groupId>ai.djl.mxnet</groupId>
-            <artifactId>mxnet-native-auto</artifactId>
-            <version>1.7.0-backport</version>
-            <scope>runtime</scope>
+            <groupId>org.deeplearning4j</groupId>
+            <artifactId>rl4j-core</artifactId>
+            <version>1.0.0-M1.1</version>
         </dependency>
 
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.26</version>
+            <groupId>org.deeplearning4j</groupId>
+            <artifactId>rl4j-gym</artifactId>
+            <version>1.0.0-M1.1</version>
         </dependency>
+
 
 
         <dependency>

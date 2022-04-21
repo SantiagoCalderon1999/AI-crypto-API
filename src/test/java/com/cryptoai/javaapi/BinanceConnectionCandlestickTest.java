@@ -47,7 +47,7 @@ public class BinanceConnectionCandlestickTest {
         candlestickRetriever.retrieveBinanceCandlesticks();
 
         // save candlesticks using a TreeMap
-        TreeMap<Long, Candlestick> candlestickMap = candlestickRetriever.getCandlesticksCache();
+        TreeMap<Long, Candlestick> candlestickMap = null;
         return candlestickMap;
     }
 

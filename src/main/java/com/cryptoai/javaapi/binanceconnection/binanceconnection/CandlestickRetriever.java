@@ -24,7 +24,7 @@ public class CandlestickRetriever {
 
     private Long endTime;
 
-    private TreeMap<Long, Candlestick> candlesticksCache;
+    private List<Candlestick> candlesticksList;
 
     public CandlestickRetriever(){
 
@@ -48,8 +48,12 @@ public class CandlestickRetriever {
         this.interval = interval;
     }
 
-    public TreeMap<Long, Candlestick> getCandlesticksCache() {
-        return candlesticksCache;
+    public List<Candlestick> getCandlesticksList() {
+        return candlesticksList;
+    }
+
+    public void setCandlesticksList(List<Candlestick> candlesticksList) {
+        this.candlesticksList = candlesticksList;
     }
 
     public Integer getCandlestickLimit() {
@@ -97,14 +101,12 @@ public class CandlestickRetriever {
         BinanceApiRestClient client = factory.newRestClient();
 
         // get candlesticks bars
-        List<Candlestick> candlestickBars = client.getCandlestickBars(symbol.toUpperCase(), interval, candlestickLimit, startTime, endTime);
+        candlesticksList = client.getCandlestickBars(symbol.toUpperCase(),
+                interval,
+                candlestickLimit,
+                startTime,
+                endTime);
 
-        // save candlesticks using a TreeMap
-        this.candlesticksCache = new TreeMap<>();
-
-        for (Candlestick theCandlestickBar: candlestickBars){
-            candlesticksCache.put(theCandlestickBar.getOpenTime(), theCandlestickBar);
-        }
 
     }
 

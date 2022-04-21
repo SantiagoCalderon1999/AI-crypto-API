@@ -7,13 +7,14 @@ import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.TreeMap;
 
 @Service
 public class CryptoService {
 
 
-    public static TreeMap<Long, Candlestick> candleStickInitialization(String symbol, String startDate) {
+    public static List<Candlestick> candleStickInitialization(String symbol, String startDate) {
         CandlestickRetriever candlestickRetriever = new CandlestickRetriever();
 
         // set symbol of cryptocurrency pair
@@ -30,7 +31,7 @@ public class CryptoService {
         candlestickRetriever.retrieveBinanceCandlesticks();
 
         // save candlesticks using a TreeMap
-        TreeMap<Long, Candlestick> candlestickMap = candlestickRetriever.getCandlesticksCache();
+        List<Candlestick> candlestickMap = candlestickRetriever.getCandlesticksList();
         return candlestickMap;
     }
 }

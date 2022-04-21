@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.TreeMap;
 
 @RestController
@@ -35,7 +36,7 @@ public class CryptoRestController {
             throw new CryptoWrongDateFormatException("Wrong date format - " + startDate);
         }
 
-        TreeMap<Long, Candlestick> candlestickMap = cryptoService.candleStickInitialization(symbol, startDate);
+        List<Candlestick> candlestickMap = cryptoService.candleStickInitialization(symbol, startDate);
         Analyzer theAnalyzer = new Analyzer(candlestickMap);
         Result theResult = new Result(theAnalyzer.getClose());
         return theResult;
