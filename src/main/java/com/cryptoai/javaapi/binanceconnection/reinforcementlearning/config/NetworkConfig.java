@@ -14,6 +14,8 @@ public class NetworkConfig {
 
     // Testing comment
 
+    // Testing comment 2
+
     public static int NUMBER_OF_INPUTS = 4;
 
     public static double LOW_VALUE = -1;
