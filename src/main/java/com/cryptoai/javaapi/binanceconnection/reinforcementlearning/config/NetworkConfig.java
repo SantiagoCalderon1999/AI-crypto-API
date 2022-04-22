@@ -12,6 +12,8 @@ import java.io.IOException;
 
 public class NetworkConfig {
 
+    // Testing comment
+
     public static int NUMBER_OF_INPUTS = 4;
 
     public static double LOW_VALUE = -1;

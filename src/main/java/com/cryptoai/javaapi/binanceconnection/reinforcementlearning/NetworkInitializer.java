@@ -23,6 +23,7 @@ public class NetworkInitializer {
             String randomNetworkName = "network-" + System.currentTimeMillis() + ".zip";
 
 
+
             // create training environment
             Environment env = new Environment();
             QLearningDiscreteDense<StateUtil> dql = new QLearningDiscreteDense<>(
