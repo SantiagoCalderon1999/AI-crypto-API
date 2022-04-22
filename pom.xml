@@ -15,6 +15,7 @@
     <description>Java-AI-crypto-API</description>
     <properties>
         <java.version>11</java.version>
+        <dl4j.version>1.0.0-beta7</dl4j.version>
     </properties>
     <repositories>
         <repository>
@@ -27,30 +28,55 @@
         <!-- Add RL dependencies -->
 
         <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.6.2</version>
+            <type>pom</type>
+        </dependency>
+
+        <dependency>
+            <groupId>org.deeplearning4j</groupId>
+            <artifactId>deeplearning4j-nn</artifactId>
+            <version>${dl4j.version}</version>
+            <type>pom</type>
+        </dependency>
+
+        <dependency>
             <groupId>org.deeplearning4j</groupId>
             <artifactId>rl4j</artifactId>
-            <version>1.0.0-M1.1</version>
+            <version>${dl4j.version}</version>
             <type>pom</type>
         </dependency>
 
         <dependency>
             <groupId>org.deeplearning4j</groupId>
             <artifactId>rl4j-api</artifactId>
-            <version>1.0.0-M1.1</version>
+            <version>${dl4j.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.deeplearning4j</groupId>
             <artifactId>rl4j-core</artifactId>
-            <version>1.0.0-M1.1</version>
+            <version>${dl4j.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>org.deeplearning4j</groupId>
-            <artifactId>rl4j-gym</artifactId>
-            <version>1.0.0-M1.1</version>
+            <groupId>org.nd4j</groupId>
+            <artifactId>nd4j-cuda-10.1</artifactId>
+            <version>${dl4j.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.nd4j</groupId>
+            <artifactId>nd4j-native-platform</artifactId>
+            <version>${dl4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.nd4j</groupId>
+            <artifactId>nd4j-backends</artifactId>
+            <version>${dl4j.version}</version>
+        </dependency>
 
 
         <dependency>

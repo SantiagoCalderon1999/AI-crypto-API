@@ -21,7 +21,7 @@ public class NetworkConfig {
     public NetworkConfig() {
     }
 
-    public QLearningConfiguration buildConifg(){
+    public static QLearningConfiguration buildConfig(){
         return QLearningConfiguration.builder()
                 .seed(123L)
                 .maxEpochStep(200)
@@ -39,7 +39,7 @@ public class NetworkConfig {
                 .build();
     }
 
-    public DQNFactoryStdDense buildDQNFactory(){
+    public static DQNFactoryStdDense buildDQNFactory(){
         DQNDenseNetworkConfiguration build = DQNDenseNetworkConfiguration.builder()
                 .l2(0.001)
                 .updater(new RmsProp(0.000025))
@@ -50,7 +50,7 @@ public class NetworkConfig {
         return new DQNFactoryStdDense(build);
     }
 
-    public MultiLayerNetwork loadNetwork(String networkName){
+    public static MultiLayerNetwork loadNetwork(String networkName){
 
         try {
             return MultiLayerNetwork.load(new File(networkName), true);
