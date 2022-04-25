@@ -9,9 +9,9 @@ import java.util.List;
 
 public class Analyzer {
 
-    private List<Candlestick> candlestickList;
+    private static List<Candlestick> candlestickList;
 
-    private int currentStep;
+    private static int currentStep;
 
     public Analyzer(List<Candlestick> candlestickMap) {
         this.candlestickList = candlestickMap;
@@ -36,11 +36,11 @@ public class Analyzer {
         return close;
     }
 
-    public StateUtil getCurrentObservation(){
-        this.currentStep++;
+    public static StateUtil getCurrentObservation(){
+        currentStep++;
 
-        if (this.currentStep > candlestickList.size()-10){
-            this.currentStep = 0;
+        if (currentStep > candlestickList.size()-10){
+            currentStep = 0;
         }
 
         List<Candlestick> currentCandlesticks = new ArrayList<>();
@@ -54,7 +54,7 @@ public class Analyzer {
         return new StateUtil(currentState);
     }
 
-    private List<State> getStateFromCandleSticks(List<Candlestick> currentCandlesticks){
+    private static List<State> getStateFromCandleSticks(List<Candlestick> currentCandlesticks){
 
         List<State> state = new ArrayList<>();
 

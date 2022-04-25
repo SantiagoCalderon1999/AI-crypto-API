@@ -17,17 +17,17 @@ public class Environment implements MDP<StateUtil, Integer, DiscreteSpace> {
 
     @Override
     public ObservationSpace<StateUtil> getObservationSpace() {
-        return null;
+        return new StockObservationSpace();
     }
 
     @Override
     public DiscreteSpace getActionSpace() {
-        return null;
+        return actionSpace;
     }
 
     @Override
     public StateUtil reset() {
-        return null;
+        return Analyzer.getCurrentObservation();
     }
 
     @Override
@@ -52,6 +52,8 @@ public class Environment implements MDP<StateUtil, Integer, DiscreteSpace> {
                 ""
         );
     }
+
+
 
     @Override
     public boolean isDone() {

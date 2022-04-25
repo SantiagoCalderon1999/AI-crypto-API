@@ -26,6 +26,7 @@ public class NetworkInitializer {
 
             // create training environment
             Environment env = new Environment();
+
             QLearningDiscreteDense<StateUtil> dql = new QLearningDiscreteDense<>(
                     env,
                     NetworkConfig.buildDQNFactory(),
