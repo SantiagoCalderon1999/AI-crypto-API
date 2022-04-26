@@ -44,7 +44,7 @@ public class CryptoRestController {
         Analyzer theAnalyzer = new Analyzer(candlestickMap);
         Result theResult = new Result(theAnalyzer.getClose());
 
-        NetworkInitializer.initializeNetwork();
+        NetworkInitializer.initializeNetwork(theAnalyzer);
 
         return theResult;
     }

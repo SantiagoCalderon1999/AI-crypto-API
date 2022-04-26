@@ -16,11 +16,11 @@ public class NetworkConfig {
 
     // Testing comment 2
 
-    public static int NUMBER_OF_INPUTS = 4;
+    public static int NUMBER_OF_INPUTS = 25;
 
     public static double LOW_VALUE = -1;
 
-    public static double HIGH_VALUE =1;
+    public static double HIGH_VALUE = 1;
 
     public NetworkConfig() {
     }

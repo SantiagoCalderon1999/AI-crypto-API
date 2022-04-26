@@ -5,15 +5,23 @@ import org.deeplearning4j.gym.StepReply;
 import org.deeplearning4j.rl4j.mdp.MDP;
 import org.deeplearning4j.rl4j.space.DiscreteSpace;
 import org.deeplearning4j.rl4j.space.ObservationSpace;
-
-import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class Environment implements MDP<StateUtil, Integer, DiscreteSpace> {
 
     // Size is 3 as there are 3 actions, i.e. sell, buy and hold
     private DiscreteSpace actionSpace = new DiscreteSpace(3);
 
-    private Analyzer stockAnalyzer;
+    @Autowired
+    private Analyzer analyzer;
+
+    private Logger logger = LoggerFactory.getLogger(Environment.class);
+
+    public Environment(Analyzer analyzer) {
+        this.analyzer = analyzer;
+    }
 
     @Override
     public ObservationSpace<StateUtil> getObservationSpace() {
@@ -27,7 +35,8 @@ public class Environment implements MDP<StateUtil, Integer, DiscreteSpace> {
 
     @Override
     public StateUtil reset() {
-        return Analyzer.getCurrentObservation();
+        analyzer.initializeEpoch();
+        return analyzer.getCurrentObservation();
     }
 
     @Override
@@ -41,14 +50,16 @@ public class Environment implements MDP<StateUtil, Integer, DiscreteSpace> {
         final Action actionToTake = Action.getActionByIndex(actionIndex);
 
         Reward theReward = new Reward();
-        double reward = theReward.calculateRewardForActionToTake(actionToTake);
+        double reward = theReward.calculateRewardForActionToTake(actionToTake, analyzer);
 
-        StateUtil observation = stockAnalyzer.getCurrentObservation();
+        StateUtil observation = analyzer.getCurrentObservation();
+
+        //logger.info("=====> is it done? " + isDone());
 
         return new StepReply<>(
                 observation,
                 reward,
-                false,
+                isDone(),
                 ""
         );
     }
@@ -57,11 +68,11 @@ public class Environment implements MDP<StateUtil, Integer, DiscreteSpace> {
 
     @Override
     public boolean isDone() {
-        return false;
+        return analyzer.isEpochFinished();
     }
 
     @Override
     public MDP<StateUtil, Integer, DiscreteSpace> newInstance() {
-        return null;
+        return new Environment(analyzer);
     }
 }
