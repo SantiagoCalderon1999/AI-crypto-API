@@ -1,16 +1,15 @@
-package com.cryptoai.javaapi.binanceconnection.reinforcementlearning.config;
+package com.cryptoai.javaapi.binanceconnection.reinforcementlearning.util;
 
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.deeplearning4j.rl4j.learning.configuration.QLearningConfiguration;
 import org.deeplearning4j.rl4j.network.configuration.DQNDenseNetworkConfiguration;
-import org.deeplearning4j.rl4j.network.dqn.DQNFactoryStdConv;
 import org.deeplearning4j.rl4j.network.dqn.DQNFactoryStdDense;
 import org.nd4j.linalg.learning.config.RmsProp;
 
 import java.io.File;
 import java.io.IOException;
 
-public class NetworkConfig {
+public class NetworkUtil {
 
     // Testing comment
 
@@ -22,14 +21,14 @@ public class NetworkConfig {
 
     public static double HIGH_VALUE = 1;
 
-    public NetworkConfig() {
+    public NetworkUtil() {
     }
 
-    public static QLearningConfiguration buildConfig(){
+    public static QLearningConfiguration buildConfig(Long seed){
         return QLearningConfiguration.builder()
-                .seed(123L)
-                .maxEpochStep(200)
-                .maxStep(15000)
+                .seed(seed)
+                .maxEpochStep(1000)
+                .maxStep(200)
                 .expRepMaxSize(150000)
                 .batchSize(128)
                 .targetDqnUpdateFreq(500)

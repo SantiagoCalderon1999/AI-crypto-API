@@ -1,6 +1,11 @@
 package com.cryptoai.javaapi.binanceconnection.reinforcementlearning;
 
-import com.cryptoai.javaapi.binanceconnection.entity.Analyzer;
+import com.cryptoai.javaapi.binanceconnection.entity.CryptoData;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FinanceSimulation {
 
@@ -14,6 +19,10 @@ public class FinanceSimulation {
 
     private float currentCryptoPrice;
 
+    private List<Float> trainingResults;
+
+    private Logger logger = LoggerFactory.getLogger(FinanceSimulation.class);
+
     public FinanceSimulation() {
 
         this.cryptoHeld = 0;
@@ -21,11 +30,11 @@ public class FinanceSimulation {
         this.currentCryptoPrice = 0;
     }
 
-    public void buySimulation(Analyzer analyzer){
-        int currentStep = analyzer.getCurrentStep();
+    public void buySimulation(CryptoData cryptoData){
+        int currentStep = cryptoData.getCurrentStep();
 
         // Get close
-        currentCryptoPrice = analyzer.getArrayFromCandlestickByIndex(currentStep)[1];
+        currentCryptoPrice = cryptoData.getArrayFromCandlestickByIndex(currentStep)[1];
 
         float amountBought = currentAmountUSD;
 
@@ -35,11 +44,11 @@ public class FinanceSimulation {
 
     }
 
-    public void sellSimulation(Analyzer analyzer){
-        int currentStep = analyzer.getCurrentStep();
+    public void sellSimulation(CryptoData cryptoData){
+        int currentStep = cryptoData.getCurrentStep();
 
         // Get close
-        currentCryptoPrice = analyzer.getArrayFromCandlestickByIndex(currentStep)[1];
+        currentCryptoPrice = cryptoData.getArrayFromCandlestickByIndex(currentStep)[1];
 
         float amountSold = cryptoHeld * currentCryptoPrice;
 
@@ -49,12 +58,18 @@ public class FinanceSimulation {
 
     }
 
-    public void holdSimulation(Analyzer analyzer){
+    public void holdSimulation(CryptoData cryptoData){
 
     }
 
+
     public float getNetWorth(){
-        return currentAmountUSD + cryptoHeld * currentCryptoPrice;
+        float netWorth = currentAmountUSD + cryptoHeld * currentCryptoPrice;
+
+        this.trainingResults.add(netWorth);
+
+
+        return netWorth;
     }
 
     public float getInitialAccountBalance() {
@@ -65,5 +80,15 @@ public class FinanceSimulation {
         this.cryptoHeld = 0;
         this.currentAmountUSD = initialAccountBalance;
         this.currentCryptoPrice = 0;
+        logger.info("=====> Restarting everything");
+        this.trainingResults = new ArrayList<>();
+    }
+
+    public List<Float> getTrainingResults() {
+        return trainingResults;
+    }
+
+    public void setTrainingResults(List<Float> trainingResults) {
+        this.trainingResults = trainingResults;
     }
 }

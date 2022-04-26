@@ -1,20 +1,18 @@
 package com.cryptoai.javaapi.binanceconnection.rest;
 
 import com.binance.api.client.domain.market.Candlestick;
-import com.cryptoai.javaapi.binanceconnection.entity.Analyzer;
-import com.cryptoai.javaapi.binanceconnection.entity.Result;
+import com.cryptoai.javaapi.binanceconnection.entity.CryptoData;
+import com.cryptoai.javaapi.binanceconnection.entity.ResultList;
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.NetworkInitializer;
 import com.cryptoai.javaapi.binanceconnection.service.CryptoService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.TreeMap;
 
 @RestController
 public class CryptoRestController {
@@ -26,8 +24,8 @@ public class CryptoRestController {
         this.cryptoService = cryptoService;
     }
 
-    @GetMapping("/crypto/{symbol}/{startDate}")
-    public Result getCryptoData(@PathVariable String symbol, @PathVariable String startDate){
+    @GetMapping("/crypto/{symbol}/{startDate}/{seed}")
+    public String getCryptoData(@PathVariable String symbol, @PathVariable String startDate, @PathVariable Long seed){
 
 
         // throw exception if Date format is not right
@@ -41,12 +39,24 @@ public class CryptoRestController {
         }
 
         List<Candlestick> candlestickMap = cryptoService.candleStickInitialization(symbol, startDate);
-        Analyzer theAnalyzer = new Analyzer(candlestickMap);
-        Result theResult = new Result(theAnalyzer.getClose());
+        CryptoData theCryptoData = new CryptoData(candlestickMap);
 
-        NetworkInitializer.initializeNetwork(theAnalyzer);
+        CryptoData cryptoData = NetworkInitializer.initializeNetwork(theCryptoData, seed);
 
-        return theResult;
+        ResultList theResultList = new ResultList();
+
+
+        theResultList.setResults(cryptoData);
+
+        String stringResult;
+
+        try {
+            stringResult = theResultList.listToJSON();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return stringResult;
     }
 
 }

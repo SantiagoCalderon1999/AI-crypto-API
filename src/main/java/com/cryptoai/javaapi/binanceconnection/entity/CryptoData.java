@@ -1,10 +1,9 @@
 package com.cryptoai.javaapi.binanceconnection.entity;
 
 import com.binance.api.client.domain.market.Candlestick;
-import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.Environment;
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.FinanceSimulation;
-import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.State;
-import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.StateUtil;
+import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.Observation;
+import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.util.StateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -13,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class Analyzer {
+public class CryptoData {
 
     private static List<Candlestick> candlestickList;
 
@@ -23,11 +22,11 @@ public class Analyzer {
 
     private static boolean isEpochOngoing;
 
-    private FinanceSimulation financeSimulation;
+    private static FinanceSimulation financeSimulation;
 
-    private static Logger logger = LoggerFactory.getLogger(Analyzer.class);
+    private static Logger logger = LoggerFactory.getLogger(CryptoData.class);
 
-    public Analyzer(List<Candlestick> candlestickMap) {
+    public CryptoData(List<Candlestick> candlestickMap) {
         this.candlestickList = candlestickMap;
         this.currentStep = 0;
         this.globalStep = 0;
@@ -51,17 +50,21 @@ public class Analyzer {
         this.financeSimulation = financeSimulation;
     }
 
-    public List<Float> getClose(){
+    public List<Float> getNormalizedClose(){
 
-        List<Float> close = new ArrayList<>();
+        Candlestick firstElement = candlestickList.get(0);
+        float firstClose = Float.parseFloat(firstElement.getClose());
+        List<Float> normalizedClose = new ArrayList<>();
+
         for(Candlestick tempEntry: candlestickList){
-            close.add(Float.parseFloat(tempEntry.getClose()));
+            normalizedClose.add(Float.parseFloat(tempEntry.getClose()) / firstClose * getFinanceSimulation().getInitialAccountBalance());
         }
 
-        return close;
+        return normalizedClose;
     }
 
     public static StateUtil getCurrentObservation(){
+
         currentStep++;
         globalStep++;
 
@@ -77,23 +80,23 @@ public class Analyzer {
             currentCandlesticks.add(candlestickList.get(i));
         }
 
-        List<State> currentState = getStateFromCandleSticks(currentCandlesticks);
-        return new StateUtil(currentState);
+        List<Observation> currentObservation = getStateFromCandleSticks(currentCandlesticks);
+        return new StateUtil(currentObservation);
     }
 
-    private static List<State> getStateFromCandleSticks(List<Candlestick> currentCandlesticks){
+    private static List<Observation> getStateFromCandleSticks(List<Candlestick> currentCandlesticks){
 
-        List<State> state = new ArrayList<>();
+        List<Observation> observation = new ArrayList<>();
 
         for(Candlestick tempEntry: currentCandlesticks){
-            state.add(new State(Float.parseFloat(tempEntry.getClose()),
+            observation.add(new Observation(Float.parseFloat(tempEntry.getClose()),
                     Float.parseFloat(tempEntry.getOpen()),
                     Float.parseFloat(tempEntry.getHigh()),
                     Float.parseFloat(tempEntry.getLow()),
                     Float.parseFloat(tempEntry.getVolume())));
         }
 
-        return state;
+        return observation;
     }
 
     public boolean isEpochFinished(){

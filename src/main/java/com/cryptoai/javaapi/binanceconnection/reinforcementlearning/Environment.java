@@ -1,6 +1,7 @@
 package com.cryptoai.javaapi.binanceconnection.reinforcementlearning;
 
-import com.cryptoai.javaapi.binanceconnection.entity.Analyzer;
+import com.cryptoai.javaapi.binanceconnection.entity.CryptoData;
+import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.util.StateUtil;
 import org.deeplearning4j.gym.StepReply;
 import org.deeplearning4j.rl4j.mdp.MDP;
 import org.deeplearning4j.rl4j.space.DiscreteSpace;
@@ -14,13 +15,12 @@ public class Environment implements MDP<StateUtil, Integer, DiscreteSpace> {
     // Size is 3 as there are 3 actions, i.e. sell, buy and hold
     private DiscreteSpace actionSpace = new DiscreteSpace(3);
 
-    @Autowired
-    private Analyzer analyzer;
+    private CryptoData cryptoData;
 
     private Logger logger = LoggerFactory.getLogger(Environment.class);
 
-    public Environment(Analyzer analyzer) {
-        this.analyzer = analyzer;
+    public Environment(CryptoData cryptoData) {
+        this.cryptoData = cryptoData;
     }
 
     @Override
@@ -35,8 +35,9 @@ public class Environment implements MDP<StateUtil, Integer, DiscreteSpace> {
 
     @Override
     public StateUtil reset() {
-        analyzer.initializeEpoch();
-        return analyzer.getCurrentObservation();
+        logger.info("=====> Reset");
+        cryptoData.initializeEpoch();
+        return cryptoData.getCurrentObservation();
     }
 
     @Override
@@ -50,11 +51,9 @@ public class Environment implements MDP<StateUtil, Integer, DiscreteSpace> {
         final Action actionToTake = Action.getActionByIndex(actionIndex);
 
         Reward theReward = new Reward();
-        double reward = theReward.calculateRewardForActionToTake(actionToTake, analyzer);
+        double reward = theReward.calculateRewardForActionToTake(actionToTake, cryptoData);
 
-        StateUtil observation = analyzer.getCurrentObservation();
-
-        //logger.info("=====> is it done? " + isDone());
+        StateUtil observation = cryptoData.getCurrentObservation();
 
         return new StepReply<>(
                 observation,
@@ -68,11 +67,18 @@ public class Environment implements MDP<StateUtil, Integer, DiscreteSpace> {
 
     @Override
     public boolean isDone() {
-        return analyzer.isEpochFinished();
+        return cryptoData.isEpochFinished();
     }
 
     @Override
     public MDP<StateUtil, Integer, DiscreteSpace> newInstance() {
-        return new Environment(analyzer);
+        return new Environment(cryptoData);
+    }
+
+    public CryptoData getCryptoData() {
+
+        logger.info("=====> Printing Finance data: " + cryptoData.getFinanceSimulation().getTrainingResults());
+
+        return cryptoData;
     }
 }

@@ -1,13 +1,13 @@
 package com.cryptoai.javaapi.binanceconnection.reinforcementlearning;
 
-public class State{
+public class Observation {
     private Float open;
     private Float high;
     private Float low;
     private Float close;
     private Float volume;
 
-    public State(Float open, Float high, Float low, Float close, Float volume) {
+    public Observation(Float open, Float high, Float low, Float close, Float volume) {
         this.open = open;
         this.high = high;
         this.low = low;

@@ -1,20 +1,29 @@
 package com.cryptoai.javaapi.binanceconnection.entity;
 
-import java.util.List;
-
 public class Result {
 
-    private List<Float> close;
+    private float closeNormalized;
 
-    public Result(List<Float> close) {
-        this.close = close;
+    private float networkResult;
+
+    public Result(float closeNormalized, float networkResult) {
+        this.closeNormalized = closeNormalized;
+        this.networkResult = networkResult;
     }
 
-    public List<Float> getClose() {
-        return close;
+    public float getCloseNormalized() {
+        return closeNormalized;
     }
 
-    public void setClose(List<Float> close) {
-        this.close = close;
+    public void setCloseNormalized(float closeNormalized) {
+        this.closeNormalized = closeNormalized;
+    }
+
+    public float getNetworkResult() {
+        return networkResult;
+    }
+
+    public void setNetworkResult(float networkResult) {
+        this.networkResult = networkResult;
     }
 }

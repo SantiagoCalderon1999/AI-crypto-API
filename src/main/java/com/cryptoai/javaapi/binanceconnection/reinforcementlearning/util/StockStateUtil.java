@@ -1,4 +1,4 @@
-package com.cryptoai.javaapi.binanceconnection.reinforcementlearning.config;
+package com.cryptoai.javaapi.binanceconnection.reinforcementlearning.util;
 
 public class StockStateUtil {
 

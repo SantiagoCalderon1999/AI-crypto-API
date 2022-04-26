@@ -1,8 +1,9 @@
 package com.cryptoai.javaapi.binanceconnection.reinforcementlearning;
 
-import com.cryptoai.javaapi.binanceconnection.entity.Analyzer;
-import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.config.NetworkConfig;
-import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.config.StockStateUtil;
+import com.cryptoai.javaapi.binanceconnection.entity.CryptoData;
+import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.util.NetworkUtil;
+import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.util.StateUtil;
+import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.util.StockStateUtil;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.deeplearning4j.rl4j.learning.sync.qlearning.discrete.QLearningDiscreteDense;
 import org.nd4j.linalg.api.ndarray.INDArray;
@@ -18,9 +19,8 @@ public class NetworkInitializer {
     public NetworkInitializer() {
     }
 
-    public static void initializeNetwork(Analyzer analyzer){
+    public static CryptoData initializeNetwork(CryptoData cryptoData, Long seed){
 
-        Thread thread = new Thread(()->{
             logger.info("=====> Initialize neural network");
 
             // create random name to the network
@@ -29,12 +29,12 @@ public class NetworkInitializer {
 
 
             // create training environment
-            Environment mdp = new Environment(analyzer);
+            Environment mdp = new Environment(cryptoData);
 
             QLearningDiscreteDense<StateUtil> dql = new QLearningDiscreteDense<>(
                     mdp,
-                    NetworkConfig.buildDQNFactory(),
-                    NetworkConfig.buildConfig()
+                    NetworkUtil.buildDQNFactory(),
+                    NetworkUtil.buildConfig(seed)
             );
 
             // train network
@@ -43,7 +43,7 @@ public class NetworkInitializer {
             mdp.close();
 
             // save network
-
+            /*
             try {
                 dql.getNeuralNet().save(randomNetworkName);
                 logger.info("=====> Saved neural network");
@@ -51,21 +51,19 @@ public class NetworkInitializer {
                 e.printStackTrace();
             }
 
-            analyzer.initializeEpoch();
-            System.out.println("Testing: " + randomNetworkName);
+            cryptoData.initializeEpoch();
+            logger.info("Testing: " + randomNetworkName);
 
-            evaluateNetwork(analyzer, randomNetworkName);
-        });
-
-        thread.start();
-
+            evaluateNetwork(cryptoData, randomNetworkName);
+*/
+        return mdp.getCryptoData();
     }
 
-    private static void evaluateNetwork(Analyzer analyzer, String randomNetworkName){
-        MultiLayerNetwork multiLayerNetwork = NetworkConfig.loadNetwork(randomNetworkName);
+    private static void evaluateNetwork(CryptoData cryptoData, String randomNetworkName){
+        MultiLayerNetwork multiLayerNetwork = NetworkUtil.loadNetwork(randomNetworkName);
 
-        while(analyzer.isEpochFinished()){
-            StateUtil state = analyzer.getCurrentObservation();
+        while(cryptoData.isEpochFinished()){
+            StateUtil state = cryptoData.getCurrentObservation();
             INDArray output = multiLayerNetwork.output(state.getMatrix(), false);
             double[] data = output.data().asDouble();
             int maxValueIndex = StockStateUtil.getMaxValueIndex(data);
