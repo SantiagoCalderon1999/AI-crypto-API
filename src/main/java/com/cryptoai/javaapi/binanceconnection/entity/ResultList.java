@@ -2,15 +2,20 @@ package com.cryptoai.javaapi.binanceconnection.entity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import freemarker.template.SimpleDate;
 
 import java.io.IOError;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class ResultList {
+public class ResultList{
 
     private CryptoData cryptoData;
 
@@ -24,28 +29,25 @@ public class ResultList {
     public void setResults(CryptoData cryptoData){
 
         List<Float> closeNormalized = cryptoData.getNormalizedClose();
-
+        List<Date> dates = cryptoData.getDates();
         List<Float> networkResult = cryptoData.getFinanceSimulation().getTrainingResults();
 
-        System.out.println("It's arriving here");
-        System.out.println("Close size: " + closeNormalized.size());
-        System.out.println("Network Result: " + networkResult.size());
 
-        for(int i = 1; i < networkResult.size(); i++){
-            results.add(new Result(closeNormalized.get(i), networkResult.get(i)));
+        for(int i = 0; i < networkResult.size(); i++){
+            results.add(new Result(formatDate(dates.get(i)), closeNormalized.get(i), networkResult.get(i)));
         }
-
-
     }
 
-    public String listToJSON() throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        //Set pretty printing of json
-        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-        String arrayToJson = objectMapper.writeValueAsString(results);
-         return arrayToJson;
+    private String formatDate(Date date){
+        String output = date.toString();
+        return (output.substring(4,16));
     }
 
+    public List<Result> getResults() {
+        return results;
+    }
 
-
+    public void setResults(List<Result> results) {
+        this.results = results;
+    }
 }

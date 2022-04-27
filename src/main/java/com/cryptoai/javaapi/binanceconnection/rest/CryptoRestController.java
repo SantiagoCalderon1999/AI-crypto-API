@@ -2,6 +2,7 @@ package com.cryptoai.javaapi.binanceconnection.rest;
 
 import com.binance.api.client.domain.market.Candlestick;
 import com.cryptoai.javaapi.binanceconnection.entity.CryptoData;
+import com.cryptoai.javaapi.binanceconnection.entity.Result;
 import com.cryptoai.javaapi.binanceconnection.entity.ResultList;
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.NetworkInitializer;
 import com.cryptoai.javaapi.binanceconnection.service.CryptoService;
@@ -24,8 +25,11 @@ public class CryptoRestController {
         this.cryptoService = cryptoService;
     }
 
-    @GetMapping("/crypto/{symbol}/{startDate}/{seed}")
-    public String getCryptoData(@PathVariable String symbol, @PathVariable String startDate, @PathVariable Long seed){
+    @GetMapping("/crypto/{symbol}/{startDate}/{seed}/{maxStep}")
+    public List<Result> getCryptoData(@PathVariable String symbol,
+                                      @PathVariable String startDate,
+                                      @PathVariable Long seed,
+                                      @PathVariable int maxStep){
 
 
         // throw exception if Date format is not right
@@ -41,22 +45,14 @@ public class CryptoRestController {
         List<Candlestick> candlestickMap = cryptoService.candleStickInitialization(symbol, startDate);
         CryptoData theCryptoData = new CryptoData(candlestickMap);
 
-        CryptoData cryptoData = NetworkInitializer.initializeNetwork(theCryptoData, seed);
+        CryptoData cryptoData = NetworkInitializer.initializeNetwork(theCryptoData, seed, maxStep);
 
         ResultList theResultList = new ResultList();
 
 
         theResultList.setResults(cryptoData);
 
-        String stringResult;
-
-        try {
-            stringResult = theResultList.listToJSON();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        return stringResult;
+        return theResultList.getResults();
     }
 
 }

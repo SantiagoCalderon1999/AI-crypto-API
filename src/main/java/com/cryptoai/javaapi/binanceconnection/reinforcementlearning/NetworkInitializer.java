@@ -3,7 +3,7 @@ package com.cryptoai.javaapi.binanceconnection.reinforcementlearning;
 import com.cryptoai.javaapi.binanceconnection.entity.CryptoData;
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.util.NetworkUtil;
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.util.StateUtil;
-import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.util.StockStateUtil;
+import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.util.CryptoStateUtil;
 import org.deeplearning4j.nn.multilayer.MultiLayerNetwork;
 import org.deeplearning4j.rl4j.learning.sync.qlearning.discrete.QLearningDiscreteDense;
 import org.nd4j.linalg.api.ndarray.INDArray;
@@ -19,7 +19,7 @@ public class NetworkInitializer {
     public NetworkInitializer() {
     }
 
-    public static CryptoData initializeNetwork(CryptoData cryptoData, Long seed){
+    public static CryptoData initializeNetwork(CryptoData cryptoData, Long seed, int maxStep){
 
             logger.info("=====> Initialize neural network");
 
@@ -34,7 +34,7 @@ public class NetworkInitializer {
             QLearningDiscreteDense<StateUtil> dql = new QLearningDiscreteDense<>(
                     mdp,
                     NetworkUtil.buildDQNFactory(),
-                    NetworkUtil.buildConfig(seed)
+                    NetworkUtil.buildConfig(seed, maxStep)
             );
 
             // train network
@@ -43,14 +43,14 @@ public class NetworkInitializer {
             mdp.close();
 
             // save network
-            /*
+
             try {
                 dql.getNeuralNet().save(randomNetworkName);
                 logger.info("=====> Saved neural network");
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
+            /*
             cryptoData.initializeEpoch();
             logger.info("Testing: " + randomNetworkName);
 
@@ -66,7 +66,7 @@ public class NetworkInitializer {
             StateUtil state = cryptoData.getCurrentObservation();
             INDArray output = multiLayerNetwork.output(state.getMatrix(), false);
             double[] data = output.data().asDouble();
-            int maxValueIndex = StockStateUtil.getMaxValueIndex(data);
+            int maxValueIndex = CryptoStateUtil.getMaxValueIndex(data);
 
         }
     }

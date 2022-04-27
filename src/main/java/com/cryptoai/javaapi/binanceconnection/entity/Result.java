@@ -1,12 +1,18 @@
 package com.cryptoai.javaapi.binanceconnection.entity;
 
+import java.util.Date;
+
 public class Result {
+
+    private String date;
 
     private float closeNormalized;
 
     private float networkResult;
 
-    public Result(float closeNormalized, float networkResult) {
+
+    public Result(String date, float closeNormalized, float networkResult) {
+        this.date = date;
         this.closeNormalized = closeNormalized;
         this.networkResult = networkResult;
     }
@@ -25,5 +31,13 @@ public class Result {
 
     public void setNetworkResult(float networkResult) {
         this.networkResult = networkResult;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

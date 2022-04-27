@@ -6,10 +6,10 @@ import org.deeplearning4j.rl4j.space.ObservationSpace;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
 
-public class StockObservationSpace implements ObservationSpace<StateUtil> {
+public class CryptoObservationSpace implements ObservationSpace<StateUtil> {
 
-    private static final double[] LOWS = StockObservationSpace.createValueArray(NetworkUtil.LOW_VALUE);
-    private static final double[] HIGHS = StockObservationSpace.createValueArray(NetworkUtil.HIGH_VALUE);
+    private static final double[] LOWS = CryptoObservationSpace.createValueArray(NetworkUtil.LOW_VALUE);
+    private static final double[] HIGHS = CryptoObservationSpace.createValueArray(NetworkUtil.HIGH_VALUE);
 
     @Override
     public String getName() {

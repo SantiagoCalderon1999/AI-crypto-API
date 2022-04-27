@@ -8,7 +8,6 @@ import org.deeplearning4j.rl4j.space.DiscreteSpace;
 import org.deeplearning4j.rl4j.space.ObservationSpace;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 public class Environment implements MDP<StateUtil, Integer, DiscreteSpace> {
 
@@ -25,7 +24,7 @@ public class Environment implements MDP<StateUtil, Integer, DiscreteSpace> {
 
     @Override
     public ObservationSpace<StateUtil> getObservationSpace() {
-        return new StockObservationSpace();
+        return new CryptoObservationSpace();
     }
 
     @Override
@@ -76,8 +75,6 @@ public class Environment implements MDP<StateUtil, Integer, DiscreteSpace> {
     }
 
     public CryptoData getCryptoData() {
-
-        logger.info("=====> Printing Finance data: " + cryptoData.getFinanceSimulation().getTrainingResults());
 
         return cryptoData;
     }

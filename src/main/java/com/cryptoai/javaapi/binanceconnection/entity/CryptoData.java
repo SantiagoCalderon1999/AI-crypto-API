@@ -4,11 +4,13 @@ import com.binance.api.client.domain.market.Candlestick;
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.FinanceSimulation;
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.Observation;
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.util.StateUtil;
+import com.sun.jna.platform.win32.OaIdl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -61,6 +63,15 @@ public class CryptoData {
         }
 
         return normalizedClose;
+    }
+
+    public List<Date> getDates(){
+        List<Date> dates = new ArrayList<>();
+        for(Candlestick tempEntry: candlestickList){
+            dates.add(new Date(tempEntry.getCloseTime()));
+        }
+
+        return dates;
     }
 
     public static StateUtil getCurrentObservation(){

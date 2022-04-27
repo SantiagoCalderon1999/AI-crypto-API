@@ -11,10 +11,6 @@ import java.io.IOException;
 
 public class NetworkUtil {
 
-    // Testing comment
-
-    // Testing comment 2
-
     public static int NUMBER_OF_INPUTS = 25;
 
     public static double LOW_VALUE = -1;
@@ -24,11 +20,11 @@ public class NetworkUtil {
     public NetworkUtil() {
     }
 
-    public static QLearningConfiguration buildConfig(Long seed){
+    public static QLearningConfiguration buildConfig(Long seed, int maxStep){
         return QLearningConfiguration.builder()
                 .seed(seed)
-                .maxEpochStep(1000)
-                .maxStep(200)
+                .maxEpochStep(10000)
+                .maxStep(maxStep)
                 .expRepMaxSize(150000)
                 .batchSize(128)
                 .targetDqnUpdateFreq(500)

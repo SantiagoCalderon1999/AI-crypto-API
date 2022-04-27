@@ -1,6 +1,6 @@
 package com.cryptoai.javaapi.binanceconnection.reinforcementlearning.util;
 
-public class StockStateUtil {
+public class CryptoStateUtil {
 
     public static int getMaxValueIndex(final double[] values) {
         int maxAt = 0;
