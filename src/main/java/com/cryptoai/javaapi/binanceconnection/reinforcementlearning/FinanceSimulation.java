@@ -3,10 +3,12 @@ package com.cryptoai.javaapi.binanceconnection.reinforcementlearning;
 import com.cryptoai.javaapi.binanceconnection.entity.CryptoData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class FinanceSimulation {
 
     private float BINANCE_TRADING_FEE = 0.001f;
@@ -33,7 +35,6 @@ public class FinanceSimulation {
     public void buySimulation(CryptoData cryptoData){
         int currentStep = cryptoData.getCurrentStep();
 
-        // Get close
         currentCryptoPrice = cryptoData.getArrayFromCandlestickByIndex(currentStep)[1];
 
         float amountBought = currentAmountUSD;
@@ -47,7 +48,6 @@ public class FinanceSimulation {
     public void sellSimulation(CryptoData cryptoData){
         int currentStep = cryptoData.getCurrentStep();
 
-        // Get close
         currentCryptoPrice = cryptoData.getArrayFromCandlestickByIndex(currentStep)[1];
 
         float amountSold = cryptoHeld * currentCryptoPrice;
@@ -65,10 +65,7 @@ public class FinanceSimulation {
 
     public float getNetWorth(){
         float netWorth = currentAmountUSD + cryptoHeld * currentCryptoPrice;
-
         this.trainingResults.add(netWorth);
-
-
         return netWorth;
     }
 

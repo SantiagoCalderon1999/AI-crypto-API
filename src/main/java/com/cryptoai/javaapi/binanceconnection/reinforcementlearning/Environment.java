@@ -8,6 +8,7 @@ import org.deeplearning4j.rl4j.space.DiscreteSpace;
 import org.deeplearning4j.rl4j.space.ObservationSpace;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class Environment implements MDP<StateUtil, Integer, DiscreteSpace> {
 
@@ -16,10 +17,14 @@ public class Environment implements MDP<StateUtil, Integer, DiscreteSpace> {
 
     private CryptoData cryptoData;
 
+    private Reward reward;
+
     private Logger logger = LoggerFactory.getLogger(Environment.class);
 
-    public Environment(CryptoData cryptoData) {
+    @Autowired
+    public Environment(CryptoData cryptoData, Reward reward) {
         this.cryptoData = cryptoData;
+        this.reward = reward;
     }
 
     @Override
@@ -47,16 +52,15 @@ public class Environment implements MDP<StateUtil, Integer, DiscreteSpace> {
     @Override
     public StepReply<StateUtil> step(Integer actionIndex) {
 
-        final Action actionToTake = Action.getActionByIndex(actionIndex);
+        Action actionToTake = Action.getActionByIndex(actionIndex);
 
-        Reward theReward = new Reward();
-        double reward = theReward.calculateRewardForActionToTake(actionToTake, cryptoData);
+        double rewardValue = reward.calculateRewardForActionToTake(actionToTake, cryptoData);
 
         StateUtil observation = cryptoData.getCurrentObservation();
 
         return new StepReply<>(
                 observation,
-                reward,
+                rewardValue,
                 isDone(),
                 ""
         );
@@ -71,7 +75,7 @@ public class Environment implements MDP<StateUtil, Integer, DiscreteSpace> {
 
     @Override
     public MDP<StateUtil, Integer, DiscreteSpace> newInstance() {
-        return new Environment(cryptoData);
+        return new Environment(cryptoData, reward);
     }
 
     public CryptoData getCryptoData() {

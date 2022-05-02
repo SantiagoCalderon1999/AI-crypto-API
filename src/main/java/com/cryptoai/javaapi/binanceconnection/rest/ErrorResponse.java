@@ -1,15 +1,15 @@
 package com.cryptoai.javaapi.binanceconnection.rest;
 
-public class CryptoErrorResponse {
+public class ErrorResponse {
 
     private int status;
     private String message;
     private long timeStamp;
 
-    public CryptoErrorResponse() {
+    public ErrorResponse() {
     }
 
-    public CryptoErrorResponse(int status, String message, long timeStamp) {
+    public ErrorResponse(int status, String message, long timeStamp) {
         this.status = status;
         this.message = message;
         this.timeStamp = timeStamp;

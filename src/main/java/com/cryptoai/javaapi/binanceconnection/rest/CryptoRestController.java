@@ -5,24 +5,29 @@ import com.cryptoai.javaapi.binanceconnection.entity.CryptoData;
 import com.cryptoai.javaapi.binanceconnection.entity.Result;
 import com.cryptoai.javaapi.binanceconnection.entity.ResultList;
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.NetworkInitializer;
-import com.cryptoai.javaapi.binanceconnection.service.CryptoService;
+import com.cryptoai.javaapi.binanceconnection.binanceconnection.CryptoDataFactory;
+import com.cryptoai.javaapi.binanceconnection.util.DateFormatUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 @RestController
 public class CryptoRestController {
 
-    private CryptoService cryptoService;
+    private CryptoDataFactory cryptoDataFactory;
+
+    private ResultList resultList;
+
+    private CryptoData cryptoData;
 
     @Autowired
-    public CryptoRestController(CryptoService cryptoService) {
-        this.cryptoService = cryptoService;
+    public CryptoRestController(ResultList resultList,
+                                CryptoDataFactory cryptoDataFactory,
+                                CryptoData cryptoData){
+        this.resultList = resultList;
+        this.cryptoDataFactory = cryptoDataFactory;
+        this.cryptoData = cryptoData;
     }
 
     @GetMapping("/crypto/{symbol}/{startDate}/{seed}/{maxStep}")
@@ -31,28 +36,19 @@ public class CryptoRestController {
                                       @PathVariable Long seed,
                                       @PathVariable int maxStep){
 
-
-        // throw exception if Date format is not right
-        DateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
-        dateFormat.setLenient(false);
-
-        try{
-            dateFormat.parse(startDate);
-        } catch(ParseException e){
-            throw new CryptoWrongDateFormatException("Wrong date format - " + startDate);
+        if (DateFormatUtil.hasErrors(startDate)){
+            throw new WrongDateFormatException("Wrong date format - " + startDate);
         }
 
-        List<Candlestick> candlestickMap = cryptoService.candleStickInitialization(symbol, startDate);
-        CryptoData theCryptoData = new CryptoData(candlestickMap);
+        List<Candlestick> candlestickList = cryptoDataFactory.candleStickInitialization(symbol, startDate);
 
-        CryptoData cryptoData = NetworkInitializer.initializeNetwork(theCryptoData, seed, maxStep);
+        cryptoData.setCandlestickList(candlestickList);
 
-        ResultList theResultList = new ResultList();
+        NetworkInitializer.initializeNetwork(seed, maxStep);
 
+        resultList.setResults(cryptoData);
 
-        theResultList.setResults(cryptoData);
-
-        return theResultList.getResults();
+        return resultList.getResults();
     }
 
 }

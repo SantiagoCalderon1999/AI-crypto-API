@@ -4,7 +4,10 @@ import com.binance.api.client.BinanceApiClientFactory;
 import com.binance.api.client.BinanceApiRestClient;
 import com.binance.api.client.domain.market.Candlestick;
 import com.binance.api.client.domain.market.CandlestickInterval;
+import com.cryptoai.javaapi.binanceconnection.util.ConstantsUtil;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -32,16 +35,8 @@ public class CandlestickRetriever {
         this.candlestickLimit = 500;
     }
 
-    public String getSymbol() {
-        return symbol;
-    }
-
     public void setSymbol(String symbol) {
         this.symbol = symbol;
-    }
-
-    public CandlestickInterval getInterval() {
-        return interval;
     }
 
     public void setInterval(CandlestickInterval interval) {
@@ -52,28 +47,8 @@ public class CandlestickRetriever {
         return candlesticksList;
     }
 
-    public void setCandlesticksList(List<Candlestick> candlesticksList) {
-        this.candlesticksList = candlesticksList;
-    }
-
-    public Integer getCandlestickLimit() {
-        return candlestickLimit;
-    }
-
-    public void setCandlestickLimit(Integer candlestickLimit) {
-        this.candlestickLimit = candlestickLimit;
-    }
-
-    public Long getStartTime() {
-        return startTime;
-    }
-
     public void setStartTime(String startDateString) {
         this.startTime = convertDateStringToLong(startDateString);
-    }
-
-    public Long getEndTime() {
-        return endTime;
     }
 
     public void setEndTime(String endDateString) {
@@ -83,7 +58,7 @@ public class CandlestickRetriever {
     private Long convertDateStringToLong(String endDateString) {
 
         // set the String date format
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantsUtil.DATE_FORMAT);
 
         // parse Date from String format to Long
         Date theDate = null;

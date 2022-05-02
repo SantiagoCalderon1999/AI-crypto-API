@@ -6,13 +6,13 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class CryptoRestExceptionHandler {
+public class RestExceptionHandler {
 
     @ExceptionHandler
-    public ResponseEntity<CryptoErrorResponse> handleException(Exception exception){
+    public ResponseEntity<ErrorResponse> handleException(Exception exception){
 
 
-        CryptoErrorResponse error = new CryptoErrorResponse(
+        ErrorResponse error = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
                 exception.getMessage(),
                 System.currentTimeMillis()

@@ -7,6 +7,7 @@ import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.util.StateUt
 import com.sun.jna.platform.win32.OaIdl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -28,16 +29,21 @@ public class CryptoData {
 
     private static Logger logger = LoggerFactory.getLogger(CryptoData.class);
 
-    public CryptoData(List<Candlestick> candlestickMap) {
-        this.candlestickList = candlestickMap;
+    @Autowired
+    public CryptoData(FinanceSimulation financeSimulation) {
+        this.candlestickList = new ArrayList<>();
         this.currentStep = 0;
         this.globalStep = 0;
         this.isEpochOngoing = false;
-        this.financeSimulation = new FinanceSimulation();
+        this.financeSimulation = financeSimulation;
     }
 
     public int getCurrentStep() {
         return currentStep;
+    }
+
+    public void setCandlestickList(List<Candlestick> candlestickList) {
+        CryptoData.candlestickList = candlestickList;
     }
 
     public void setCurrentStep(int currentStep) {
@@ -48,6 +54,7 @@ public class CryptoData {
         return financeSimulation;
     }
 
+    @Autowired
     public void setFinanceSimulation(FinanceSimulation financeSimulation) {
         this.financeSimulation = financeSimulation;
     }
@@ -59,7 +66,7 @@ public class CryptoData {
         List<Float> normalizedClose = new ArrayList<>();
 
         for(Candlestick tempEntry: candlestickList){
-            normalizedClose.add(Float.parseFloat(tempEntry.getClose()) / firstClose * getFinanceSimulation().getInitialAccountBalance());
+            normalizedClose.add(Float.parseFloat(tempEntry.getClose()) / firstClose * financeSimulation.getInitialAccountBalance());
         }
 
         return normalizedClose;

@@ -3,35 +3,44 @@ package com.cryptoai.javaapi.binanceconnection.reinforcementlearning;
 import com.cryptoai.javaapi.binanceconnection.entity.CryptoData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+
+@Component
 public class Reward {
 
     private Logger logger = LoggerFactory.getLogger(Reward.class);
     private float REWARD_CONSTANT = 10;
 
-    public Reward() {
+    private FinanceSimulation financeSimulation;
 
+    @Autowired
+    public Reward(FinanceSimulation financeSimulation) {
+
+        this.financeSimulation = financeSimulation;
     }
 
     public double calculateRewardForActionToTake(Action action, CryptoData cryptoData){
 
         switch(action){
             case SELL:
-                    cryptoData.getFinanceSimulation().sellSimulation(cryptoData);
+                financeSimulation.sellSimulation(cryptoData);
                 break;
             case BUY:
-                    cryptoData.getFinanceSimulation().buySimulation(cryptoData);
+                financeSimulation.buySimulation(cryptoData);
                 break;
             case HOLD:
-                    cryptoData.getFinanceSimulation().holdSimulation(cryptoData);
+                financeSimulation.holdSimulation(cryptoData);
                 break;
         }
 
-        float netWorth = cryptoData.getFinanceSimulation().getNetWorth();
+        float netWorth = financeSimulation.getNetWorth();
 
         logger.info("Net worth: " + netWorth);
 
-        float reward = ((netWorth / cryptoData.getFinanceSimulation().getInitialAccountBalance()) - 1) * REWARD_CONSTANT;
+        float reward = ((netWorth / financeSimulation.getInitialAccountBalance()) - 1) * REWARD_CONSTANT;
 
         return reward;
     }
