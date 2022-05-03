@@ -29,11 +29,6 @@ public class CryptoRestController {
                                       @PathVariable Long seed,
                                       @PathVariable int maxStep){
 
-        if (DateFormatUtil.hasErrors(startDate)){
-            throw new WrongDateFormatException("Wrong date format - " + startDate);
-        }
-
-
         DataFactory.newCryptoDataFromCandlesticks(symbol, startDate);
 
         NetworkInitializer.initializeNetwork(seed, maxStep);

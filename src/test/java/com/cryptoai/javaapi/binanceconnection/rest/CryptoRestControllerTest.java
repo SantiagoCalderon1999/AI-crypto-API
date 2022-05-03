@@ -16,6 +16,7 @@ import org.mockito.stubbing.Answer;
 
 import java.util.*;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
@@ -52,11 +53,11 @@ class CryptoRestControllerTest {
         networkInitializerMockedStatic.when(()-> NetworkInitializer.initializeNetwork(anyLong(), anyInt())).
                 thenAnswer((Answer<Void>) invocation -> null);
 
-        List<Result> results = new ArrayList<>();
-        given(mockResultList.computeResults()).willReturn(results);
+        List<Result> expectedResultList = new ArrayList<>();
+        given(mockResultList.computeResults()).willReturn(expectedResultList);
 
         // when
-        List<Result> resultList = cryptoRestController.getCryptoData(
+        List<Result> resultListMethod = cryptoRestController.getCryptoData(
                 "ETHUSDT",
                 correctStringDate,
                 123L,
@@ -67,17 +68,9 @@ class CryptoRestControllerTest {
         networkInitializerMockedStatic.verify(() -> NetworkInitializer.initializeNetwork(anyLong(), anyInt()));
         verify(mockResultList, times(1)).computeResults();
 
+        assertThat(resultListMethod).isEqualTo(expectedResultList);
+
     }
 
-    @Test
-    void getCryptoDataExceptionHandlingTest(){
-        String incorrectStringDate = "22-abril-2022";
 
-        assertThrows(WrongDateFormatException.class,
-                ()-> cryptoRestController.getCryptoData(
-                        "ETHUSDT",
-                        incorrectStringDate,
-                        123L,
-                        15000));
-    }
 }
