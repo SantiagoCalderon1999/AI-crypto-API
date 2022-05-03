@@ -21,7 +21,7 @@ public class DataFactory {
         DataFactory.cryptoData = cryptoData;
     }
 
-    public static void newCryptoDataFromCandlesticks(String symbol, String startDate) {
+    public static List<Candlestick> retrieveCandlesticks(String symbol, String startDate, String endDate) {
         CandlestickRetriever candlestickRetriever = new CandlestickRetriever();
 
         // set symbol of cryptocurrency pair
@@ -31,14 +31,17 @@ public class DataFactory {
         candlestickRetriever.setSymbol(symbol);
         candlestickRetriever.setInterval(CandlestickInterval.FIFTEEN_MINUTES);
         candlestickRetriever.setStartTime(startDate);
-        String currentDate = new SimpleDateFormat(ConstantsUtil.DATE_FORMAT).format(new Date());
-        candlestickRetriever.setEndTime(currentDate);
+        candlestickRetriever.setEndTime(endDate);
 
         // retrieve candlesticks from Binance API
         candlestickRetriever.retrieveBinanceCandlesticks();
 
-        // save candlesticks in cryptoData object
-        List<Candlestick> candlesticksList = candlestickRetriever.getCandlesticksList();
-        cryptoData.setCandlestickList(candlesticksList);
+        return candlestickRetriever.getCandlesticksList();
+    }
+
+    public static void newCryptoDataFromCandlesticks(String symbol, String startDate)
+    {
+        String currentDate = new SimpleDateFormat(ConstantsUtil.DATE_FORMAT).format(new Date());
+        cryptoData.setCandlestickList(DataFactory.retrieveCandlesticks(symbol, startDate, currentDate));
     }
 }

@@ -1,4 +1,4 @@
-package com.cryptoai.javaapi.binanceconnection.rest;
+package com.cryptoai.javaapi.binanceconnection.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,14 +11,11 @@ public class RestExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleException(Exception exception){
 
-
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
                 exception.getMessage(),
                 System.currentTimeMillis()
         );
-
-
 
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }

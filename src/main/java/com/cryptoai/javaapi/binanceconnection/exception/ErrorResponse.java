@@ -1,4 +1,4 @@
-package com.cryptoai.javaapi.binanceconnection.rest;
+package com.cryptoai.javaapi.binanceconnection.exception;
 
 public class ErrorResponse {
 
@@ -38,4 +38,5 @@ public class ErrorResponse {
     public void setTimeStamp(long timeStamp) {
         this.timeStamp = timeStamp;
     }
+
 }

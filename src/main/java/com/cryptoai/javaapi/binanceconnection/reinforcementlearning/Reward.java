@@ -28,19 +28,20 @@ public class Reward {
 
         float currentCryptoPrice = cryptoData.getCloseFromCandlestickByIndex(currentStep);
 
+        float netWorth = 0;
+
         switch(action){
             case SELL:
-                financeSimulation.sellSimulation(currentCryptoPrice);
+                netWorth = financeSimulation.sellSimulation(currentCryptoPrice);
                 break;
             case BUY:
-                financeSimulation.buySimulation(currentCryptoPrice);
+                netWorth = financeSimulation.buySimulation(currentCryptoPrice);
                 break;
             case HOLD:
-                financeSimulation.holdSimulation(currentCryptoPrice);
+                netWorth = financeSimulation.holdSimulation(currentCryptoPrice);
                 break;
         }
 
-        float netWorth = financeSimulation.getNetWorth();
 
         logger.info("Net worth: " + netWorth);
 

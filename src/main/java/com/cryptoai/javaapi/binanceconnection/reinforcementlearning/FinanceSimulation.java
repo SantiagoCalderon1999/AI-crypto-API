@@ -31,29 +31,32 @@ public class FinanceSimulation {
         this.currentCryptoPrice = 0;
     }
 
-    public void buySimulation(float currentCryptoPrice){
+    public float buySimulation(float currentCryptoPrice){
         this.currentCryptoPrice = currentCryptoPrice;
 
         float amountBought = currentAmountUSD;
 
-        currentAmountUSD -= amountBought;
+        currentAmountUSD -= amountBought * (1 + BINANCE_TRADING_FEE);
 
         cryptoHeld += amountBought / currentCryptoPrice;
 
+        return getNetWorth();
     }
 
-    public void sellSimulation(float currentCryptoPrice){
+    public float sellSimulation(float currentCryptoPrice){
         this.currentCryptoPrice = currentCryptoPrice;
 
         float amountSold = cryptoHeld * currentCryptoPrice;
 
-        currentAmountUSD += amountSold;
+        currentAmountUSD += amountSold * (1 - BINANCE_TRADING_FEE);
 
         cryptoHeld -= cryptoHeld; // Multiply by amount
+
+        return getNetWorth();
     }
 
-    public void holdSimulation(float currentCryptoPrice){
-
+    public float holdSimulation(float currentCryptoPrice){
+        return getNetWorth();
     }
 
 

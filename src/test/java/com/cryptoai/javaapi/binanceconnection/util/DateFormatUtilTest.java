@@ -1,6 +1,6 @@
 package com.cryptoai.javaapi.binanceconnection.util;
 
-import com.cryptoai.javaapi.binanceconnection.rest.WrongDateFormatException;
+import com.cryptoai.javaapi.binanceconnection.exception.WrongDateFormatException;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;

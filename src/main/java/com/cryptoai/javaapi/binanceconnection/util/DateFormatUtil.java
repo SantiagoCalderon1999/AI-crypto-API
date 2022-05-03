@@ -1,8 +1,7 @@
 package com.cryptoai.javaapi.binanceconnection.util;
 
-import com.cryptoai.javaapi.binanceconnection.rest.WrongDateFormatException;
+import com.cryptoai.javaapi.binanceconnection.exception.WrongDateFormatException;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
