@@ -1,6 +1,5 @@
 package com.cryptoai.javaapi.binanceconnection.reinforcementlearning;
 
-import com.cryptoai.javaapi.binanceconnection.entity.CryptoData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -11,9 +10,9 @@ import java.util.List;
 @Component
 public class FinanceSimulation {
 
-    private float BINANCE_TRADING_FEE = 0.001f;
+    private final float BINANCE_TRADING_FEE = 0.001f;
 
-    private float initialAccountBalance = 1000f;
+    private final float initialAccountBalance = 1000f;
 
     private float currentAmountUSD;
 
@@ -23,7 +22,7 @@ public class FinanceSimulation {
 
     private List<Float> trainingResults;
 
-    private Logger logger = LoggerFactory.getLogger(FinanceSimulation.class);
+    private final Logger logger = LoggerFactory.getLogger(FinanceSimulation.class);
 
     public FinanceSimulation() {
 
@@ -32,10 +31,8 @@ public class FinanceSimulation {
         this.currentCryptoPrice = 0;
     }
 
-    public void buySimulation(CryptoData cryptoData){
-        int currentStep = cryptoData.getCurrentStep();
-
-        currentCryptoPrice = cryptoData.getArrayFromCandlestickByIndex(currentStep)[1];
+    public void buySimulation(float currentCryptoPrice){
+        this.currentCryptoPrice = currentCryptoPrice;
 
         float amountBought = currentAmountUSD;
 
@@ -45,20 +42,17 @@ public class FinanceSimulation {
 
     }
 
-    public void sellSimulation(CryptoData cryptoData){
-        int currentStep = cryptoData.getCurrentStep();
-
-        currentCryptoPrice = cryptoData.getArrayFromCandlestickByIndex(currentStep)[1];
+    public void sellSimulation(float currentCryptoPrice){
+        this.currentCryptoPrice = currentCryptoPrice;
 
         float amountSold = cryptoHeld * currentCryptoPrice;
 
         currentAmountUSD += amountSold;
 
         cryptoHeld -= cryptoHeld; // Multiply by amount
-
     }
 
-    public void holdSimulation(CryptoData cryptoData){
+    public void holdSimulation(float currentCryptoPrice){
 
     }
 

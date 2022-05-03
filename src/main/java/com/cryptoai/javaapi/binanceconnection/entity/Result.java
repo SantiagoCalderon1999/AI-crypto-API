@@ -1,7 +1,5 @@
 package com.cryptoai.javaapi.binanceconnection.entity;
 
-import java.util.Date;
-
 public class Result {
 
     private String date;

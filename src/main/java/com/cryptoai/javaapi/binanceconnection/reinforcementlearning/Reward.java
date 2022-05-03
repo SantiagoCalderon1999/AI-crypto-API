@@ -6,33 +6,37 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-
 @Component
 public class Reward {
 
-    private Logger logger = LoggerFactory.getLogger(Reward.class);
-    private float REWARD_CONSTANT = 10;
+    private final Logger logger = LoggerFactory.getLogger(Reward.class);
 
-    private FinanceSimulation financeSimulation;
+    private final FinanceSimulation financeSimulation;
+
+    private final CryptoData cryptoData;
 
     @Autowired
-    public Reward(FinanceSimulation financeSimulation) {
+    public Reward(FinanceSimulation financeSimulation, CryptoData cryptoData) {
 
         this.financeSimulation = financeSimulation;
+        this.cryptoData = cryptoData;
     }
 
-    public double calculateRewardForActionToTake(Action action, CryptoData cryptoData){
+    public double calculateRewardForActionToTake(Action action){
+
+        int currentStep = cryptoData.getCurrentStep();
+
+        float currentCryptoPrice = cryptoData.getCloseFromCandlestickByIndex(currentStep);
 
         switch(action){
             case SELL:
-                financeSimulation.sellSimulation(cryptoData);
+                financeSimulation.sellSimulation(currentCryptoPrice);
                 break;
             case BUY:
-                financeSimulation.buySimulation(cryptoData);
+                financeSimulation.buySimulation(currentCryptoPrice);
                 break;
             case HOLD:
-                financeSimulation.holdSimulation(cryptoData);
+                financeSimulation.holdSimulation(currentCryptoPrice);
                 break;
         }
 
@@ -40,12 +44,9 @@ public class Reward {
 
         logger.info("Net worth: " + netWorth);
 
-        float reward = ((netWorth / financeSimulation.getInitialAccountBalance()) - 1) * REWARD_CONSTANT;
+        float REWARD_CONSTANT = 10;
 
-        return reward;
+        return ((netWorth / financeSimulation.getInitialAccountBalance()) - 1) * REWARD_CONSTANT;
     }
 
-    private void performAction(){
-
-    }
 }

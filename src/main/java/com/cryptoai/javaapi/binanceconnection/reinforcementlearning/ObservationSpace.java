@@ -2,14 +2,13 @@ package com.cryptoai.javaapi.binanceconnection.reinforcementlearning;
 
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.util.NetworkUtil;
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.util.StateUtil;
-import org.deeplearning4j.rl4j.space.ObservationSpace;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
 
-public class CryptoObservationSpace implements ObservationSpace<StateUtil> {
+public class ObservationSpace implements org.deeplearning4j.rl4j.space.ObservationSpace<StateUtil> {
 
-    private static final double[] LOWS = CryptoObservationSpace.createValueArray(NetworkUtil.LOW_VALUE);
-    private static final double[] HIGHS = CryptoObservationSpace.createValueArray(NetworkUtil.HIGH_VALUE);
+    private static final double[] LOWS = ObservationSpace.createValueArray(NetworkUtil.LOW_VALUE);
+    private static final double[] HIGHS = ObservationSpace.createValueArray(NetworkUtil.HIGH_VALUE);
 
     @Override
     public String getName() {

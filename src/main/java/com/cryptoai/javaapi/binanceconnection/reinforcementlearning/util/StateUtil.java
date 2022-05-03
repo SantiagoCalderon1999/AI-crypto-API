@@ -9,7 +9,7 @@ import java.util.List;
 
 public class StateUtil implements Encodable {
 
-    private List<Observation> inputs;
+    private final List<Observation> inputs;
 
     public StateUtil(List<Observation> inputs) {
         this.inputs = inputs;

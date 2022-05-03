@@ -4,7 +4,6 @@ import com.binance.api.client.domain.market.Candlestick;
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.FinanceSimulation;
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.Observation;
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.util.StateUtil;
-import com.sun.jna.platform.win32.OaIdl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,15 +26,15 @@ public class CryptoData {
 
     private static FinanceSimulation financeSimulation;
 
-    private static Logger logger = LoggerFactory.getLogger(CryptoData.class);
+    private static final Logger logger = LoggerFactory.getLogger(CryptoData.class);
 
     @Autowired
     public CryptoData(FinanceSimulation financeSimulation) {
-        this.candlestickList = new ArrayList<>();
-        this.currentStep = 0;
-        this.globalStep = 0;
-        this.isEpochOngoing = false;
-        this.financeSimulation = financeSimulation;
+        candlestickList = new ArrayList<>();
+        currentStep = 0;
+        globalStep = 0;
+        isEpochOngoing = false;
+        CryptoData.financeSimulation = financeSimulation;
     }
 
     public int getCurrentStep() {
@@ -46,17 +45,9 @@ public class CryptoData {
         CryptoData.candlestickList = candlestickList;
     }
 
-    public void setCurrentStep(int currentStep) {
-        this.currentStep = currentStep;
-    }
-
-    public FinanceSimulation getFinanceSimulation() {
-        return financeSimulation;
-    }
-
     @Autowired
     public void setFinanceSimulation(FinanceSimulation financeSimulation) {
-        this.financeSimulation = financeSimulation;
+        CryptoData.financeSimulation = financeSimulation;
     }
 
     public List<Float> getNormalizedClose(){
@@ -85,7 +76,6 @@ public class CryptoData {
 
         currentStep++;
         globalStep++;
-
 
         if (currentStep > candlestickList.size() - 10){
             isEpochOngoing = false;
@@ -121,10 +111,10 @@ public class CryptoData {
 
         if (globalStep < 10)
         {
-            this.isEpochOngoing = false;
+            isEpochOngoing = false;
         }
 
-        return !this.isEpochOngoing;
+        return !isEpochOngoing;
     }
 
     public StateUtil initializeEpoch(){
@@ -135,16 +125,10 @@ public class CryptoData {
         return getCurrentObservation();
     }
 
-    public Float[]  getArrayFromCandlestickByIndex(int index){
-        Float[] candlestickArray = new Float[5];
-
-        candlestickArray[0] = Float.parseFloat(candlestickList.get(index).getOpen());
-        candlestickArray[1] = Float.parseFloat(candlestickList.get(index).getClose());
-        candlestickArray[2] = Float.parseFloat(candlestickList.get(index).getHigh());
-        candlestickArray[3] = Float.parseFloat(candlestickList.get(index).getLow());
-        candlestickArray[4] = Float.parseFloat(candlestickList.get(index).getVolume());
-
-        return candlestickArray;
+    public float getCloseFromCandlestickByIndex(int index){
+        float closePrice;
+        closePrice = Float.parseFloat(candlestickList.get(index).getClose());
+        return closePrice;
     }
 
 }

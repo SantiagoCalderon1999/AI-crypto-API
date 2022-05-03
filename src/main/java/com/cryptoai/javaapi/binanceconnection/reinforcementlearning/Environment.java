@@ -5,7 +5,6 @@ import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.util.StateUt
 import org.deeplearning4j.gym.StepReply;
 import org.deeplearning4j.rl4j.mdp.MDP;
 import org.deeplearning4j.rl4j.space.DiscreteSpace;
-import org.deeplearning4j.rl4j.space.ObservationSpace;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class Environment implements MDP<StateUtil, Integer, DiscreteSpace> {
 
     // Size is 3 as there are 3 actions, i.e. sell, buy and hold
-    private DiscreteSpace actionSpace = new DiscreteSpace(3);
+    private final DiscreteSpace actionSpace = new DiscreteSpace(3);
 
-    private CryptoData cryptoData;
+    private final CryptoData cryptoData;
 
-    private Reward reward;
+    private final Reward reward;
 
-    private Logger logger = LoggerFactory.getLogger(Environment.class);
+    private final Logger logger = LoggerFactory.getLogger(Environment.class);
 
     @Autowired
     public Environment(CryptoData cryptoData, Reward reward) {
@@ -28,8 +27,8 @@ public class Environment implements MDP<StateUtil, Integer, DiscreteSpace> {
     }
 
     @Override
-    public ObservationSpace<StateUtil> getObservationSpace() {
-        return new CryptoObservationSpace();
+    public org.deeplearning4j.rl4j.space.ObservationSpace<StateUtil> getObservationSpace() {
+        return new ObservationSpace();
     }
 
     @Override
@@ -41,7 +40,7 @@ public class Environment implements MDP<StateUtil, Integer, DiscreteSpace> {
     public StateUtil reset() {
         logger.info("=====> Reset");
         cryptoData.initializeEpoch();
-        return cryptoData.getCurrentObservation();
+        return CryptoData.getCurrentObservation();
     }
 
     @Override
@@ -54,9 +53,9 @@ public class Environment implements MDP<StateUtil, Integer, DiscreteSpace> {
 
         Action actionToTake = Action.getActionByIndex(actionIndex);
 
-        double rewardValue = reward.calculateRewardForActionToTake(actionToTake, cryptoData);
+        double rewardValue = reward.calculateRewardForActionToTake(actionToTake);
 
-        StateUtil observation = cryptoData.getCurrentObservation();
+        StateUtil observation = CryptoData.getCurrentObservation();
 
         return new StepReply<>(
                 observation,

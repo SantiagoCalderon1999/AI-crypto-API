@@ -17,7 +17,7 @@ import java.io.IOException;
 @Component
 public class NetworkInitializer {
 
-    private static Logger logger = LoggerFactory.getLogger(NetworkInitializer.class);
+    private static final Logger logger = LoggerFactory.getLogger(NetworkInitializer.class);
 
     private static CryptoData cryptoData;
 
@@ -25,8 +25,8 @@ public class NetworkInitializer {
 
     @Autowired
     public NetworkInitializer(CryptoData cryptoData, Reward reward) {
-        this.cryptoData = cryptoData;
-        this.reward = reward;
+        NetworkInitializer.cryptoData = cryptoData;
+        NetworkInitializer.reward = reward;
     }
 
     public static void initializeNetwork(Long seed, int maxStep){
@@ -60,19 +60,13 @@ public class NetworkInitializer {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            /*
-            cryptoData.initializeEpoch();
-            logger.info("Testing: " + randomNetworkName);
-
-            evaluateNetwork(cryptoData, randomNetworkName);
-*/
     }
 
     private static void evaluateNetwork(CryptoData cryptoData, String randomNetworkName){
         MultiLayerNetwork multiLayerNetwork = NetworkUtil.loadNetwork(randomNetworkName);
 
         while(cryptoData.isEpochFinished()){
-            StateUtil state = cryptoData.getCurrentObservation();
+            StateUtil state = CryptoData.getCurrentObservation();
             INDArray output = multiLayerNetwork.output(state.getMatrix(), false);
             double[] data = output.data().asDouble();
             int maxValueIndex = CryptoStateUtil.getMaxValueIndex(data);
