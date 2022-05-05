@@ -1,4 +1,4 @@
-package com.cryptoai.javaapi.binanceconnection.exception;
+package com.cryptoai.javaapi.binanceconnection.web.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

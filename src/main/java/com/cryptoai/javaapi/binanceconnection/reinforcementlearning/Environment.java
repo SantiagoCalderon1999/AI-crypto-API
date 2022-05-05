@@ -1,6 +1,6 @@
 package com.cryptoai.javaapi.binanceconnection.reinforcementlearning;
 
-import com.cryptoai.javaapi.binanceconnection.entity.CryptoData;
+import com.cryptoai.javaapi.binanceconnection.binance.CryptoData;
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.util.StateUtil;
 import org.deeplearning4j.gym.StepReply;
 import org.deeplearning4j.rl4j.mdp.MDP;

@@ -1,6 +1,7 @@
-package com.cryptoai.javaapi.binanceconnection.entity;
+package com.cryptoai.javaapi.binanceconnection.binance;
 
 import com.binance.api.client.domain.market.Candlestick;
+import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.DataObserver;
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.FinanceSimulation;
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.Observation;
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.util.StateUtil;
@@ -91,24 +92,13 @@ public class CryptoData {
             currentCandlesticks.add(candlestickList.get(i));
         }
 
-        List<Observation> currentObservation = getStateFromCandleSticks(currentCandlesticks);
+        DataObserver dataObserver = new DataObserver();
+
+        List<Observation> currentObservation = dataObserver.getStateFromCandleSticks(currentCandlesticks);
         return new StateUtil(currentObservation);
     }
 
-    private static List<Observation> getStateFromCandleSticks(List<Candlestick> currentCandlesticks){
 
-        List<Observation> observation = new ArrayList<>();
-
-        for(Candlestick tempEntry: currentCandlesticks){
-            observation.add(new Observation(Float.parseFloat(tempEntry.getClose()),
-                    Float.parseFloat(tempEntry.getOpen()),
-                    Float.parseFloat(tempEntry.getHigh()),
-                    Float.parseFloat(tempEntry.getLow()),
-                    Float.parseFloat(tempEntry.getVolume())));
-        }
-
-        return observation;
-    }
 
     public boolean isEpochFinished(){
 

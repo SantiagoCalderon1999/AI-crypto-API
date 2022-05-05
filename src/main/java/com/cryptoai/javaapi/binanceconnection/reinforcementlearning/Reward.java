@@ -1,6 +1,6 @@
 package com.cryptoai.javaapi.binanceconnection.reinforcementlearning;
 
-import com.cryptoai.javaapi.binanceconnection.entity.CryptoData;
+import com.cryptoai.javaapi.binanceconnection.binance.CryptoData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

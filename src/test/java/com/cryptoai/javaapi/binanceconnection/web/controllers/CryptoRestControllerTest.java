@@ -1,9 +1,10 @@
-package com.cryptoai.javaapi.binanceconnection.rest;
+package com.cryptoai.javaapi.binanceconnection.web.controllers;
 
-import com.cryptoai.javaapi.binanceconnection.entity.Result;
-import com.cryptoai.javaapi.binanceconnection.binanceconnection.DataFactory;
-import com.cryptoai.javaapi.binanceconnection.entity.ResultList;
+import com.cryptoai.javaapi.binanceconnection.web.models.Result;
+import com.cryptoai.javaapi.binanceconnection.binance.DataFactory;
+import com.cryptoai.javaapi.binanceconnection.web.models.ResultList;
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.NetworkInitializer;
+import com.cryptoai.javaapi.binanceconnection.web.controllers.CryptoRestController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

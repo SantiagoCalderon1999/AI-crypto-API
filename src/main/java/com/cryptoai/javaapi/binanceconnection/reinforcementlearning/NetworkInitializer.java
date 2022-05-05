@@ -1,6 +1,6 @@
 package com.cryptoai.javaapi.binanceconnection.reinforcementlearning;
 
-import com.cryptoai.javaapi.binanceconnection.entity.CryptoData;
+import com.cryptoai.javaapi.binanceconnection.binance.CryptoData;
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.util.NetworkUtil;
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.util.StateUtil;
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.util.CryptoStateUtil;
@@ -62,15 +62,4 @@ public class NetworkInitializer {
             }
     }
 
-    private static void evaluateNetwork(CryptoData cryptoData, String randomNetworkName){
-        MultiLayerNetwork multiLayerNetwork = NetworkUtil.loadNetwork(randomNetworkName);
-
-        while(cryptoData.isEpochFinished()){
-            StateUtil state = CryptoData.getCurrentObservation();
-            INDArray output = multiLayerNetwork.output(state.getMatrix(), false);
-            double[] data = output.data().asDouble();
-            int maxValueIndex = CryptoStateUtil.getMaxValueIndex(data);
-
-        }
-    }
 }

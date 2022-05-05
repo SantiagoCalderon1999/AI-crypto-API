@@ -11,6 +11,7 @@ public class StateUtil implements Encodable {
 
     private final List<Observation> inputs;
 
+
     public StateUtil(List<Observation> inputs) {
         this.inputs = inputs;
     }
@@ -28,12 +29,12 @@ public class StateUtil implements Encodable {
 
     @Override
     public INDArray getData() {
-        return Nd4j.create(createDataMatrix(inputs)); //
+        return Nd4j.create(createDataArray(inputs)); //
     }
 
     public INDArray getMatrix() {
         return Nd4j.create(new double[][] {
-                createDataMatrix(inputs)
+                createDataArray(inputs)
         });
     }
 
@@ -42,19 +43,20 @@ public class StateUtil implements Encodable {
         return null;
     }
 
-    private double[] createDataMatrix(List<Observation> dataList){
+    public double[] createDataArray(List<Observation> dataList){
 
-        double[] resultDataMatrix =  new double[NetworkUtil.NUMBER_OF_INPUTS];
+        double[] resultDataArray =  new double[NetworkUtil.NUMBER_OF_INPUTS];
         int counter = 0;
+
             for(Observation tempObservation : dataList){
-                resultDataMatrix[counter*5+0] = tempObservation.getOpen();
-                resultDataMatrix[counter*5+1] = tempObservation.getClose();
-                resultDataMatrix[counter*5+2] = tempObservation.getHigh();
-                resultDataMatrix[counter*5+3] = tempObservation.getLow();
-                resultDataMatrix[counter*5+4] = tempObservation.getVolume();
+                resultDataArray[counter*5+0] = tempObservation.getOpen();
+                resultDataArray[counter*5+1] = tempObservation.getClose();
+                resultDataArray[counter*5+2] = tempObservation.getHigh();
+                resultDataArray[counter*5+3] = tempObservation.getLow();
+                resultDataArray[counter*5+4] = tempObservation.getVolume();
                 counter++;
             }
 
-        return resultDataMatrix;
+        return resultDataArray;
     }
 }

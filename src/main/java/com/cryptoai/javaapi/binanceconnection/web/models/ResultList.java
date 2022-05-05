@@ -1,5 +1,6 @@
-package com.cryptoai.javaapi.binanceconnection.entity;
+package com.cryptoai.javaapi.binanceconnection.web.models;
 
+import com.cryptoai.javaapi.binanceconnection.binance.CryptoData;
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.FinanceSimulation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
