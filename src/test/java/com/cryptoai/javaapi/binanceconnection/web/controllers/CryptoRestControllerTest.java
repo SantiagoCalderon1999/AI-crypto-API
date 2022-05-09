@@ -54,7 +54,7 @@ class CryptoRestControllerTest {
         networkInitializerMockedStatic.when(()-> NetworkInitializer.initializeNetwork(anyLong(), anyInt())).
                 thenAnswer((Answer<Void>) invocation -> null);
 
-        List<Result> expectedResultList = new ArrayList<>();
+        List<Result> expectedResultList = Collections.EMPTY_LIST;
         given(mockResultList.computeResults()).willReturn(expectedResultList);
 
         // when

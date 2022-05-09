@@ -2,6 +2,7 @@ package com.cryptoai.javaapi.binanceconnection.reinforcementlearning;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ public class FinanceSimulation {
 
     private final float BINANCE_TRADING_FEE = 0.001f;
 
-    private final float initialAccountBalance = 1000f;
+    private float initialAccountBalance = 1000f;
 
     private float currentAmountUSD;
 
@@ -24,11 +25,13 @@ public class FinanceSimulation {
 
     private final Logger logger = LoggerFactory.getLogger(FinanceSimulation.class);
 
+    @Autowired
     public FinanceSimulation() {
 
         this.cryptoHeld = 0;
         this.currentAmountUSD = initialAccountBalance;
         this.currentCryptoPrice = 0;
+        this.trainingResults = new ArrayList<>();
     }
 
     public float buySimulation(float currentCryptoPrice){
@@ -51,7 +54,6 @@ public class FinanceSimulation {
         currentAmountUSD += amountSold * (1 - BINANCE_TRADING_FEE);
 
         cryptoHeld -= cryptoHeld; // Multiply by amount
-
         return getNetWorth();
     }
 
@@ -82,7 +84,13 @@ public class FinanceSimulation {
         return trainingResults;
     }
 
-    public void setTrainingResults(List<Float> trainingResults) {
-        this.trainingResults = trainingResults;
+
+    public void setCurrentAmountUSD(float currentAmountUSD) {
+        this.currentAmountUSD = currentAmountUSD;
     }
+
+    public void setCryptoHeld(float cryptoHeld) {
+        this.cryptoHeld = cryptoHeld;
+    }
+
 }

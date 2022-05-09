@@ -24,6 +24,7 @@ public class DataFactory {
     }
 
     public static List<Candlestick> retrieveCandlesticks(String symbol, String startDate, String endDate) {
+
         // set symbol of cryptocurrency pair
         //               interval between each Candlestick
         //               start time

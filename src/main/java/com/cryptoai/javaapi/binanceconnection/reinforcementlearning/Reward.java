@@ -25,7 +25,6 @@ public class Reward {
     public double calculateRewardForActionToTake(Action action){
 
         int currentStep = cryptoData.getCurrentStep();
-
         float currentCryptoPrice = cryptoData.getCloseFromCandlestickByIndex(currentStep);
 
         float netWorth = 0;

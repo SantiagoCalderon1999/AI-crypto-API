@@ -29,9 +29,6 @@ public class CryptoData {
 
     private static final Logger logger = LoggerFactory.getLogger(CryptoData.class);
 
-    public CryptoData() {
-    }
-
     @Autowired
     public CryptoData(FinanceSimulation financeSimulation) {
         candlestickList = new ArrayList<>();
