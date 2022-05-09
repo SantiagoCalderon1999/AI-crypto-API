@@ -12,11 +12,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.xml.crypto.Data;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.reset;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {DataFactory.class, CryptoData.class, CandlestickRetriever.class, FinanceSimulation.class})
@@ -32,13 +32,16 @@ class DataFactoryTest {
     @Autowired
     FinanceSimulation financeSimulation;
 
-    DataFactory dataFactory;
     @Before
-    public void setUp() throws Exception {
+    public void setUp(){
+        reset(DataFactory.class);
+
     }
 
     @Test
     void retrieveCandlesticks() {
+
+
         // given
         Calendar startCalendar = new GregorianCalendar(2022, 2, 12);
         String startDate = new SimpleDateFormat(ConstantsUtil.DATE_FORMAT).format(startCalendar.getTime());
@@ -46,7 +49,7 @@ class DataFactoryTest {
         String endDate = new SimpleDateFormat(ConstantsUtil.DATE_FORMAT).format(endCalendar.getTime());
 
         // when
-        List<Candlestick> candlestickList = dataFactory.retrieveCandlesticks("ETHUSDT", startDate, endDate);
+        List<Candlestick> candlestickList = DataFactory.retrieveCandlesticks("ETHUSDT", startDate, endDate);
 
         // then
         assertNotNull(candlestickList);

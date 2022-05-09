@@ -5,6 +5,7 @@ import com.cryptoai.javaapi.binanceconnection.binance.DataFactory;
 import com.cryptoai.javaapi.binanceconnection.web.models.ResultList;
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.NetworkInitializer;
 import com.cryptoai.javaapi.binanceconnection.web.controllers.CryptoRestController;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,6 +33,10 @@ class CryptoRestControllerTest {
     @InjectMocks
     CryptoRestController cryptoRestController;
 
+    MockedStatic<NetworkInitializer> networkInitializerMockedStatic;
+
+    MockedStatic<DataFactory> dataFactoryMockedStatic;
+
     @BeforeEach
     void setUp() {
         // given
@@ -44,12 +49,12 @@ class CryptoRestControllerTest {
         //given
         String correctStringDate = "20-Apr-2022";
 
-        MockedStatic<DataFactory> dataFactoryMockedStatic =
+        dataFactoryMockedStatic =
                 Mockito.mockStatic(DataFactory.class);
         dataFactoryMockedStatic.when(()-> DataFactory.newCryptoDataFromCandlesticks(anyString(), anyString())).
                 thenAnswer((Answer<Void>) invocation -> null);
 
-        MockedStatic<NetworkInitializer> networkInitializerMockedStatic =
+        networkInitializerMockedStatic =
                 Mockito.mockStatic(NetworkInitializer.class);
         networkInitializerMockedStatic.when(()-> NetworkInitializer.initializeNetwork(anyLong(), anyInt())).
                 thenAnswer((Answer<Void>) invocation -> null);
@@ -73,5 +78,9 @@ class CryptoRestControllerTest {
 
     }
 
-
+    @AfterEach
+    void tearDown() {
+        networkInitializerMockedStatic.close();
+        dataFactoryMockedStatic.close();
+    }
 }
