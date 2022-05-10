@@ -1,14 +1,11 @@
 package com.cryptoai.javaapi.binanceconnection.reinforcementlearning;
 
 import com.cryptoai.javaapi.binanceconnection.RewardConfig;
-import com.cryptoai.javaapi.binanceconnection.binance.CryptoData;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,19 +13,15 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.net.Inet4Address;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.BDDAssertions.within;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {FinanceSimulation.class, CryptoData.class, RewardConfig.class})
+@ContextConfiguration(classes = {FinanceSimulation.class, TrainingHelper.class, RewardConfig.class})
 @SpringBootTest
 class RewardTest {
 
@@ -36,7 +29,7 @@ class RewardTest {
     FinanceSimulation financeSimulation;
 
     @MockBean
-    CryptoData cryptoData;
+    TrainingHelper trainingHelper;
 
     @Autowired
     Reward reward;
@@ -52,8 +45,8 @@ class RewardTest {
         //given
         Action actionToTake = Action.getActionByIndex(2);
         System.out.println(actionToTake);
-        when(cryptoData.getCurrentStep()).thenReturn(0);
-        when(cryptoData.getCloseFromCandlestickByIndex(0)).thenReturn(1000f);
+        when(trainingHelper.getCurrentStep()).thenReturn(0);
+        when(trainingHelper.getCloseFromCandlestickByIndex(0)).thenReturn(1000f);
 
 
         // when
@@ -69,9 +62,8 @@ class RewardTest {
 
         //given
         Action actionToTake = Action.getActionByIndex(1);
-        System.out.println(actionToTake);
-        given(cryptoData.getCurrentStep()).willReturn(0);
-        given(cryptoData.getCloseFromCandlestickByIndex(0)).willReturn(1000f);
+        given(trainingHelper.getCurrentStep()).willReturn(0);
+        given(trainingHelper.getCloseFromCandlestickByIndex(0)).willReturn(1000f);
 
         // when
         double rewardValue = reward.calculateRewardForActionToTake(actionToTake);
@@ -86,8 +78,8 @@ class RewardTest {
         //given
         Action actionToTake = Action.getActionByIndex(0);
         System.out.println(actionToTake);
-        given(cryptoData.getCurrentStep()).willReturn(0);
-        given(cryptoData.getCloseFromCandlestickByIndex(0)).willReturn(1000f);
+        given(trainingHelper.getCurrentStep()).willReturn(0);
+        given(trainingHelper.getCloseFromCandlestickByIndex(0)).willReturn(1000f);
         financeSimulation.setCurrentAmountUSD(0f);
         financeSimulation.setCryptoHeld(1);
 

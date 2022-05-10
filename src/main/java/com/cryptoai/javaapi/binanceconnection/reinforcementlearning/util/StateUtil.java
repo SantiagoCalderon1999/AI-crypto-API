@@ -16,6 +16,9 @@ public class StateUtil implements Encodable {
         this.inputs = inputs;
     }
 
+    public List<Observation> getInputs() {
+        return inputs;
+    }
 
     @Override
     public double[] toArray() {

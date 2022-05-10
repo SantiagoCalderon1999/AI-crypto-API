@@ -34,4 +34,15 @@ public class Observation {
     public Float getVolume() {
         return volume;
     }
+
+    @Override
+    public String toString() {
+        return "Observation{" +
+                "open=" + open +
+                ", high=" + high +
+                ", low=" + low +
+                ", close=" + close +
+                ", volume=" + volume +
+                '}';
+    }
 }

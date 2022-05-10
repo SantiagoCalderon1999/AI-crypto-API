@@ -15,10 +15,10 @@ public class DataObserver {
 
         for(Candlestick tempEntry: currentCandlesticks){
             observation.add(new Observation(
-                    Float.parseFloat(tempEntry.getClose()),
                     Float.parseFloat(tempEntry.getOpen()),
                     Float.parseFloat(tempEntry.getHigh()),
                     Float.parseFloat(tempEntry.getLow()),
+                    Float.parseFloat(tempEntry.getClose()),
                     Float.parseFloat(tempEntry.getVolume())));
         }
 

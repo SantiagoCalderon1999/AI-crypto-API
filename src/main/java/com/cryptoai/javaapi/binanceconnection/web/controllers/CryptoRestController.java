@@ -1,6 +1,6 @@
 package com.cryptoai.javaapi.binanceconnection.web.controllers;
 
-import com.cryptoai.javaapi.binanceconnection.binance.CryptoData;
+import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.TrainingHelper;
 import com.cryptoai.javaapi.binanceconnection.web.models.Result;
 import com.cryptoai.javaapi.binanceconnection.web.models.ResultList;
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.NetworkInitializer;
@@ -14,12 +14,12 @@ import java.util.List;
 public class CryptoRestController {
 
     private ResultList resultList;
-    private CryptoData cryptoData;
+    private TrainingHelper trainingHelper;
 
     @Autowired
-    public CryptoRestController(ResultList resultList, CryptoData cryptoData){
+    public CryptoRestController(ResultList resultList, TrainingHelper trainingHelper){
         this.resultList = resultList;
-        this.cryptoData = cryptoData;
+        this.trainingHelper = trainingHelper;
     }
 
     @GetMapping("/crypto/{symbol}/{startDate}/{seed}/{maxStep}")

@@ -16,8 +16,6 @@ public class CandlestickRetriever {
     }
 
     public  List<Candlestick> retrieveBinanceCandlesticks(CandlestickInfo candlestickInfo){
-
-        System.out.println("test");
         // connect with binance API
         BinanceApiClientFactory factory = BinanceApiClientFactory.newInstance();
         BinanceApiRestClient client = factory.newRestClient();

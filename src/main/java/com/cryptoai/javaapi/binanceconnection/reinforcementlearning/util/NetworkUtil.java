@@ -17,9 +17,6 @@ public class NetworkUtil {
 
     public static double HIGH_VALUE = 1;
 
-    public NetworkUtil() {
-    }
-
     public static QLearningConfiguration buildConfig(Long seed, int maxStep){
         return QLearningConfiguration.builder()
                 .seed(seed)
@@ -49,7 +46,7 @@ public class NetworkUtil {
         return new DQNFactoryStdDense(build);
     }
 
-    public static MultiLayerNetwork loadNetwork(String networkName){
+    /*public static MultiLayerNetwork loadNetwork(String networkName){
 
         try {
             return MultiLayerNetwork.load(new File(networkName), true);
@@ -57,6 +54,6 @@ public class NetworkUtil {
             e.printStackTrace();
         }
         return null;
-    }
+    }*/
 
 }

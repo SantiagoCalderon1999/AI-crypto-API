@@ -1,8 +1,8 @@
 package com.cryptoai.javaapi.binanceconnection.binance;
 
 import com.binance.api.client.domain.market.Candlestick;
-import com.cryptoai.javaapi.binanceconnection.RewardConfig;
 import com.cryptoai.javaapi.binanceconnection.binance.util.ConstantsUtil;
+import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.TrainingHelper;
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.FinanceSimulation;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.reset;
 
 @RunWith(SpringRunner.class)
-@ContextConfiguration(classes = {DataFactory.class, CryptoData.class, CandlestickRetriever.class, FinanceSimulation.class})
+@ContextConfiguration(classes = {DataFactory.class, TrainingHelper.class, CandlestickRetriever.class, FinanceSimulation.class})
 @SpringBootTest
 class DataFactoryTest {
 
@@ -27,7 +27,7 @@ class DataFactoryTest {
     CandlestickRetriever candlestickRetriever;
 
     @Autowired
-    CryptoData cryptoData;
+    TrainingHelper trainingHelper;
 
     @Autowired
     FinanceSimulation financeSimulation;
@@ -55,4 +55,16 @@ class DataFactoryTest {
         assertNotNull(candlestickList);
     }
 
+    @Test
+    public void newCryptoDataTest() {
+        // given
+        Calendar startCalendar = new GregorianCalendar(2022, 2, 12);
+        String startDate = new SimpleDateFormat(ConstantsUtil.DATE_FORMAT).format(startCalendar.getTime());
+
+        // when
+        DataFactory.newCryptoDataFromCandlesticks("ETHUSDT", startDate);
+
+        // then
+        assertNotNull(trainingHelper.getCandlestickList());
+    }
 }

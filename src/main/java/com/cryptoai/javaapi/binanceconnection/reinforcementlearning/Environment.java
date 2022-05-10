@@ -1,6 +1,5 @@
 package com.cryptoai.javaapi.binanceconnection.reinforcementlearning;
 
-import com.cryptoai.javaapi.binanceconnection.binance.CryptoData;
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.util.StateUtil;
 import org.deeplearning4j.gym.StepReply;
 import org.deeplearning4j.rl4j.mdp.MDP;
@@ -14,15 +13,15 @@ public class Environment implements MDP<StateUtil, Integer, DiscreteSpace> {
     // Size is 3 as there are 3 actions, i.e. sell, buy and hold
     private final DiscreteSpace actionSpace = new DiscreteSpace(3);
 
-    private final CryptoData cryptoData;
+    private final TrainingHelper trainingHelper;
 
     private final Reward reward;
 
     private final Logger logger = LoggerFactory.getLogger(Environment.class);
 
     @Autowired
-    public Environment(CryptoData cryptoData, Reward reward) {
-        this.cryptoData = cryptoData;
+    public Environment(TrainingHelper trainingHelper, Reward reward) {
+        this.trainingHelper = trainingHelper;
         this.reward = reward;
     }
 
@@ -39,8 +38,8 @@ public class Environment implements MDP<StateUtil, Integer, DiscreteSpace> {
     @Override
     public StateUtil reset() {
         logger.info("=====> Reset");
-        cryptoData.initializeEpoch();
-        return CryptoData.getCurrentObservation();
+        trainingHelper.initializeEpoch();
+        return trainingHelper.getCurrentObservation();
     }
 
     @Override
@@ -55,7 +54,7 @@ public class Environment implements MDP<StateUtil, Integer, DiscreteSpace> {
 
         double rewardValue = reward.calculateRewardForActionToTake(actionToTake);
 
-        StateUtil observation = CryptoData.getCurrentObservation();
+        StateUtil observation = trainingHelper.getCurrentObservation();
 
         return new StepReply<>(
                 observation,
@@ -69,16 +68,16 @@ public class Environment implements MDP<StateUtil, Integer, DiscreteSpace> {
 
     @Override
     public boolean isDone() {
-        return cryptoData.isEpochFinished();
+        return trainingHelper.isEpochFinished();
     }
 
     @Override
     public MDP<StateUtil, Integer, DiscreteSpace> newInstance() {
-        return new Environment(cryptoData, reward);
+        return new Environment(trainingHelper, reward);
     }
 
-    public CryptoData getCryptoData() {
+    public TrainingHelper getCryptoData() {
 
-        return cryptoData;
+        return trainingHelper;
     }
 }

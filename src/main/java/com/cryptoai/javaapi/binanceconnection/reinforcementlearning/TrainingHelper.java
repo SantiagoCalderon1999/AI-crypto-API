@@ -1,9 +1,6 @@
-package com.cryptoai.javaapi.binanceconnection.binance;
+package com.cryptoai.javaapi.binanceconnection.reinforcementlearning;
 
 import com.binance.api.client.domain.market.Candlestick;
-import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.DataObserver;
-import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.FinanceSimulation;
-import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.Observation;
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.util.StateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 
 @Component
-public class CryptoData {
+public class TrainingHelper {
 
     private static List<Candlestick> candlestickList;
 
@@ -27,15 +24,15 @@ public class CryptoData {
 
     private static FinanceSimulation financeSimulation;
 
-    private static final Logger logger = LoggerFactory.getLogger(CryptoData.class);
+    private static final Logger logger = LoggerFactory.getLogger(TrainingHelper.class);
 
     @Autowired
-    public CryptoData(FinanceSimulation financeSimulation) {
+    public TrainingHelper(FinanceSimulation financeSimulation) {
         candlestickList = new ArrayList<>();
         currentStep = 0;
         globalStep = 0;
         isEpochOngoing = false;
-        CryptoData.financeSimulation = financeSimulation;
+        TrainingHelper.financeSimulation = financeSimulation;
     }
 
     public int getCurrentStep() {
@@ -43,12 +40,16 @@ public class CryptoData {
     }
 
     public void setCandlestickList(List<Candlestick> candlestickList) {
-        CryptoData.candlestickList = candlestickList;
+        TrainingHelper.candlestickList = candlestickList;
+    }
+
+    public List<Candlestick> getCandlestickList() {
+        return candlestickList;
     }
 
     @Autowired
     public void setFinanceSimulation(FinanceSimulation financeSimulation) {
-        CryptoData.financeSimulation = financeSimulation;
+        TrainingHelper.financeSimulation = financeSimulation;
     }
 
     public List<Float> getNormalizedClose(){
@@ -69,7 +70,6 @@ public class CryptoData {
         for(Candlestick tempEntry: candlestickList){
             dates.add(new Date(tempEntry.getCloseTime()));
         }
-
         return dates;
     }
 
@@ -116,8 +116,7 @@ public class CryptoData {
     }
 
     public float getCloseFromCandlestickByIndex(int index){
-        float closePrice;
-        closePrice = Float.parseFloat(candlestickList.get(index).getClose());
+        float closePrice = Float.parseFloat(candlestickList.get(index).getClose());
         return closePrice;
     }
 

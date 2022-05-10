@@ -3,6 +3,7 @@ package com.cryptoai.javaapi.binanceconnection.binance;
 import com.binance.api.client.domain.market.Candlestick;
 import com.binance.api.client.domain.market.CandlestickInterval;
 import com.cryptoai.javaapi.binanceconnection.binance.util.ConstantsUtil;
+import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.TrainingHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,13 +14,13 @@ import java.util.List;
 @Component
 public class DataFactory {
 
-    static CryptoData cryptoData;
+    static TrainingHelper trainingHelper;
 
     static CandlestickRetriever candlestickRetriever;
 
     @Autowired
-    public DataFactory(CryptoData cryptoData, CandlestickRetriever candlestickRetriever) {
-        DataFactory.cryptoData = cryptoData;
+    public DataFactory(TrainingHelper trainingHelper, CandlestickRetriever candlestickRetriever) {
+        DataFactory.trainingHelper = trainingHelper;
         DataFactory.candlestickRetriever = candlestickRetriever;
     }
 
@@ -41,7 +42,7 @@ public class DataFactory {
     public static void newCryptoDataFromCandlesticks(String symbol, String startDate)
     {
         String currentDate = new SimpleDateFormat(ConstantsUtil.DATE_FORMAT).format(new Date());
-        cryptoData.setCandlestickList(DataFactory.retrieveCandlesticks(symbol, startDate, currentDate));
+        trainingHelper.setCandlestickList(DataFactory.retrieveCandlesticks(symbol, startDate, currentDate));
     }
 
 }

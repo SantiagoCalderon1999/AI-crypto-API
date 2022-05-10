@@ -1,6 +1,6 @@
 package com.cryptoai.javaapi.binanceconnection.web.models;
 
-import com.cryptoai.javaapi.binanceconnection.binance.CryptoData;
+import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.TrainingHelper;
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.FinanceSimulation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,24 +12,24 @@ import java.util.List;
 @Component
 public class ResultList{
 
-    private final CryptoData cryptoData;
+    private final TrainingHelper trainingHelper;
 
     private final List<Result> results;
 
     private final FinanceSimulation financeSimulation;
 
     @Autowired
-    public ResultList(FinanceSimulation financeSimulation, CryptoData cryptoData) {
+    public ResultList(FinanceSimulation financeSimulation, TrainingHelper trainingHelper) {
 
         results = new ArrayList<>();
         this.financeSimulation = financeSimulation;
-        this.cryptoData = cryptoData;
+        this.trainingHelper = trainingHelper;
     }
 
     public void setResults(){
 
-        List<Float> closeNormalized = cryptoData.getNormalizedClose();
-        List<Date> dates = cryptoData.getDates();
+        List<Float> closeNormalized = trainingHelper.getNormalizedClose();
+        List<Date> dates = trainingHelper.getDates();
         List<Float> networkResult = financeSimulation.getTrainingResults();
 
 

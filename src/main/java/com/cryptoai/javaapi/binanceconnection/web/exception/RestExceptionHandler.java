@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class RestExceptionHandler {
 
-    @ExceptionHandler
-    public ResponseEntity<ErrorResponse> handleException(Exception exception){
+    @ExceptionHandler(WrongDateFormatException.class)
+    public ResponseEntity<ErrorResponse> handleWrongDateFormatException(Exception exception){
 
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
