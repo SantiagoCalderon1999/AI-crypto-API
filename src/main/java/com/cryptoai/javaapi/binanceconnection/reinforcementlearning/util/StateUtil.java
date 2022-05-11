@@ -20,6 +20,7 @@ public class StateUtil implements Encodable {
         return inputs;
     }
 
+
     @Override
     public double[] toArray() {
         return null;

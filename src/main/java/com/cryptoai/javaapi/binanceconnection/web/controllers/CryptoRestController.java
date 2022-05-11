@@ -1,38 +1,73 @@
 package com.cryptoai.javaapi.binanceconnection.web.controllers;
 
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.TrainingHelper;
+import com.cryptoai.javaapi.binanceconnection.web.models.InputConfiguration;
 import com.cryptoai.javaapi.binanceconnection.web.models.Result;
-import com.cryptoai.javaapi.binanceconnection.web.models.ResultList;
+import com.cryptoai.javaapi.binanceconnection.web.behavior.ResultsBehavior;
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.NetworkInitializer;
 import com.cryptoai.javaapi.binanceconnection.binance.DataFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.List;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 public class CryptoRestController {
 
-    private ResultList resultList;
+    private ResultsBehavior resultsBehavior;
     private TrainingHelper trainingHelper;
 
     @Autowired
-    public CryptoRestController(ResultList resultList, TrainingHelper trainingHelper){
-        this.resultList = resultList;
+    public CryptoRestController(ResultsBehavior resultsBehavior, TrainingHelper trainingHelper){
+        this.resultsBehavior = resultsBehavior;
         this.trainingHelper = trainingHelper;
     }
 
-    @GetMapping("/crypto/{symbol}/{startDate}/{seed}/{maxStep}")
-    public List<Result> getCryptoData(@PathVariable String symbol,
-                                      @PathVariable String startDate,
-                                      @PathVariable Long seed,
-                                      @PathVariable int maxStep){
+    @GetMapping("/crypto")
+    public ResponseEntity<List<Result>> getCryptoData(@RequestBody InputConfiguration inputConfiguration,
+                                                     HttpServletRequest request) {
 
-        DataFactory.newCryptoDataFromCandlesticks(symbol, startDate);
+        DataFactory.newCryptoDataFromCandlesticks(inputConfiguration.getCurrencyPairSymbol(), inputConfiguration.getStartDate());
 
-        NetworkInitializer.initializeNetwork(seed, maxStep);
+        Long randomFileId = NetworkInitializer.initializeNetwork(inputConfiguration.getSeed(), inputConfiguration.getMaxStep());
 
-        return resultList.computeResults();
+        List<Result> resultInfo = resultsBehavior.computeResults();
+
+        HttpHeaders headers = new HttpHeaders();
+
+        if(request!=null)
+            headers.add("link-to-zip-file", request.getRequestURL() + "/" + randomFileId.toString());
+
+        return new ResponseEntity<>(resultInfo, headers, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/crypto/{id}", produces = "application/zip")
+    public @ResponseBody byte[] getNeuralNetwork(@PathVariable long id) throws IOException {
+
+        String fileName = "src/main/resources/network-" + id + ".zip";
+        File f = new File(fileName);
+
+        if (Files.exists(Paths.get(fileName))){
+            InputStream in = new FileInputStream(fileName);
+            return in.readAllBytes();
+        }
+
+        return null;
     }
 
 }

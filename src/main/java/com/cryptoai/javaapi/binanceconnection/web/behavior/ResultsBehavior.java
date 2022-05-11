@@ -1,7 +1,8 @@
-package com.cryptoai.javaapi.binanceconnection.web.models;
+package com.cryptoai.javaapi.binanceconnection.web.behavior;
 
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.TrainingHelper;
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.FinanceSimulation;
+import com.cryptoai.javaapi.binanceconnection.web.models.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 @Component
-public class ResultList{
+public class ResultsBehavior {
 
     private final TrainingHelper trainingHelper;
 
@@ -19,7 +20,7 @@ public class ResultList{
     private final FinanceSimulation financeSimulation;
 
     @Autowired
-    public ResultList(FinanceSimulation financeSimulation, TrainingHelper trainingHelper) {
+    public ResultsBehavior(FinanceSimulation financeSimulation, TrainingHelper trainingHelper) {
 
         results = new ArrayList<>();
         this.financeSimulation = financeSimulation;

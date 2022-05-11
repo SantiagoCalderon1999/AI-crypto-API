@@ -1,10 +1,10 @@
 package com.cryptoai.javaapi.binanceconnection.web.controllers;
 
+import com.cryptoai.javaapi.binanceconnection.web.models.InputConfiguration;
 import com.cryptoai.javaapi.binanceconnection.web.models.Result;
 import com.cryptoai.javaapi.binanceconnection.binance.DataFactory;
-import com.cryptoai.javaapi.binanceconnection.web.models.ResultList;
+import com.cryptoai.javaapi.binanceconnection.web.behavior.ResultsBehavior;
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.NetworkInitializer;
-import com.cryptoai.javaapi.binanceconnection.web.controllers.CryptoRestController;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,11 +15,15 @@ import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.http.ResponseEntity;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
@@ -28,7 +32,7 @@ import static org.mockito.Mockito.*;
 class CryptoRestControllerTest {
 
     @Mock
-    ResultList mockResultList;
+    ResultsBehavior mockResultsBehavior;
 
     @InjectMocks
     CryptoRestController cryptoRestController;
@@ -60,27 +64,57 @@ class CryptoRestControllerTest {
                 thenAnswer((Answer<Void>) invocation -> null);
 
         List<Result> expectedResultList = Collections.EMPTY_LIST;
-        given(mockResultList.computeResults()).willReturn(expectedResultList);
+        given(mockResultsBehavior.computeResults()).willReturn(expectedResultList);
 
-        // when
-        List<Result> resultListMethod = cryptoRestController.getCryptoData(
+        InputConfiguration inputConfiguration = new InputConfiguration(
                 "ETHUSDT",
                 correctStringDate,
                 123L,
                 15000);
 
+        // when
+        ResponseEntity<List<Result>> resultListMethod = cryptoRestController.getCryptoData(inputConfiguration, null);
+
         // then
         dataFactoryMockedStatic.verify(() -> DataFactory.newCryptoDataFromCandlesticks(anyString(), anyString()));
         networkInitializerMockedStatic.verify(() -> NetworkInitializer.initializeNetwork(anyLong(), anyInt()));
-        verify(mockResultList, times(1)).computeResults();
+        verify(mockResultsBehavior, times(1)).computeResults();
 
-        assertThat(resultListMethod).isEqualTo(expectedResultList);
+        assertNotNull(resultListMethod);
 
-    }
 
-    @AfterEach
-    void tearDown() {
         networkInitializerMockedStatic.close();
         dataFactoryMockedStatic.close();
+
     }
+
+    @Test
+    void getNeuralNetworkItExists() throws IOException {
+
+        // given a testing file using the 12345 id
+        long correctId = 12345;
+
+        // when
+        byte[] result = cryptoRestController.getNeuralNetwork(correctId);
+
+        // then
+        assertNotNull(result);
+
+    }
+
+    @Test
+    void getNeuralNetworkItDoesNotExists() throws IOException {
+
+        // given a non-existent file with the id 99999
+        long correctId = 99999;
+
+        // when
+        byte[] result = cryptoRestController.getNeuralNetwork(correctId);
+
+        // then
+        assertNull(result);
+
+    }
+
+
 }

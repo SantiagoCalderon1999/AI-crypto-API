@@ -25,12 +25,13 @@ public class NetworkInitializer {
         NetworkInitializer.reward = reward;
     }
 
-    public static void initializeNetwork(Long seed, int maxStep){
+    public static Long initializeNetwork(Long seed, int maxStep){
 
             logger.info("=====> Initialize neural network");
 
             // create random name to the network
-            String randomNetworkName = "network-" + System.currentTimeMillis() + ".zip";
+            Long randomId =  System.currentTimeMillis();
+            String randomNetworkName = "network-" + randomId + ".zip";
 
             // create training environment
             Environment mdp = new Environment(trainingHelper, reward);
@@ -45,11 +46,13 @@ public class NetworkInitializer {
 
             // save network
             try {
-                dql.getNeuralNet().save(randomNetworkName);
+                dql.getNeuralNet().save("src/main/resources/" + randomNetworkName);
                 logger.info("=====> Saved neural network");
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            return randomId;
     }
 
     public static QLearningDiscreteDense<StateUtil> createQLearningDiscreteDense(Long seed, int maxStep, Environment mdp) {
