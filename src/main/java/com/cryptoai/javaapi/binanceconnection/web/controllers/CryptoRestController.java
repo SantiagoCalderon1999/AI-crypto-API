@@ -1,18 +1,15 @@
 package com.cryptoai.javaapi.binanceconnection.web.controllers;
 
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.TrainingHelper;
+import com.cryptoai.javaapi.binanceconnection.web.exception.NonexistentZipFileException;
 import com.cryptoai.javaapi.binanceconnection.web.models.InputConfiguration;
 import com.cryptoai.javaapi.binanceconnection.web.models.Result;
 import com.cryptoai.javaapi.binanceconnection.web.behavior.ResultsBehavior;
 import com.cryptoai.javaapi.binanceconnection.reinforcementlearning.NetworkInitializer;
 import com.cryptoai.javaapi.binanceconnection.binance.DataFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,11 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.List;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 public class CryptoRestController {
@@ -67,7 +62,8 @@ public class CryptoRestController {
             return in.readAllBytes();
         }
 
-        return null;
+        throw new NonexistentZipFileException("The file id does not exist - " + id);
+
     }
 
 }

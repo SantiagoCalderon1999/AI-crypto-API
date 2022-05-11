@@ -1,5 +1,6 @@
 package com.cryptoai.javaapi.binanceconnection.web.controllers;
 
+import com.cryptoai.javaapi.binanceconnection.web.exception.NonexistentZipFileException;
 import com.cryptoai.javaapi.binanceconnection.web.models.InputConfiguration;
 import com.cryptoai.javaapi.binanceconnection.web.models.Result;
 import com.cryptoai.javaapi.binanceconnection.binance.DataFactory;
@@ -108,11 +109,9 @@ class CryptoRestControllerTest {
         // given a non-existent file with the id 99999
         long correctId = 99999;
 
-        // when
-        byte[] result = cryptoRestController.getNeuralNetwork(correctId);
-
-        // then
-        assertNull(result);
+        assertThrows(NonexistentZipFileException.class, () ->{
+            byte[] result = cryptoRestController.getNeuralNetwork(correctId);
+        });
 
     }
 

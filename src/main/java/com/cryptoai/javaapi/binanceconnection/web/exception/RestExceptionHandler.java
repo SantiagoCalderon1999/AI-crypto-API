@@ -19,4 +19,16 @@ public class RestExceptionHandler {
 
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(NonexistentZipFileException.class)
+    public ResponseEntity<ErrorResponse> handleNonexistentZipFileException(Exception exception){
+
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                exception.getMessage(),
+                System.currentTimeMillis()
+        );
+
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
 }

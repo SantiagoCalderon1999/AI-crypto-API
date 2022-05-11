@@ -36,7 +36,9 @@ public class NetworkInitializer {
             // create training environment
             Environment mdp = new Environment(trainingHelper, reward);
 
-            QLearningDiscreteDense<StateUtil> dql = createQLearningDiscreteDense(seed, maxStep, mdp);
+            NetworkIteration networkIteration = new NetworkIteration(seed, maxStep, mdp);
+
+            QLearningDiscreteDense<StateUtil> dql = networkIteration.createQLearningDiscreteDense();
 
             // train network
             dql.train();
