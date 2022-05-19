@@ -47,6 +47,10 @@ public class Environment implements MDP<StateUtil, Integer, DiscreteSpace> {
 
     }
 
+    public Float getLastValue(){
+        return trainingHelper.getLastTrainingValue();
+    }
+
     @Override
     public StepReply<StateUtil> step(Integer actionIndex) {
 
@@ -77,7 +81,6 @@ public class Environment implements MDP<StateUtil, Integer, DiscreteSpace> {
     }
 
     public TrainingHelper getCryptoData() {
-
         return trainingHelper;
     }
 }

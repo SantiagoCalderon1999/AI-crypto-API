@@ -83,7 +83,6 @@ class CryptoRestControllerTest {
 
         assertNotNull(resultListMethod);
 
-
         networkInitializerMockedStatic.close();
         dataFactoryMockedStatic.close();
 
@@ -107,10 +106,10 @@ class CryptoRestControllerTest {
     void getNeuralNetworkItDoesNotExists() throws IOException {
 
         // given a non-existent file with the id 99999
-        long correctId = 99999;
+        long incorrectId = 99999;
 
         assertThrows(NonexistentZipFileException.class, () ->{
-            byte[] result = cryptoRestController.getNeuralNetwork(correctId);
+            cryptoRestController.getNeuralNetwork(incorrectId);
         });
 
     }

@@ -33,13 +33,13 @@ public class CryptoRestController {
         this.trainingHelper = trainingHelper;
     }
 
-    @GetMapping("/crypto")
+    @GetMapping(path = "/crypto", produces = "application/json")
     public ResponseEntity<List<Result>> getCryptoData(@RequestBody InputConfiguration inputConfiguration,
                                                      HttpServletRequest request) {
 
         DataFactory.newCryptoDataFromCandlesticks(inputConfiguration.getCurrencyPairSymbol(), inputConfiguration.getStartDate());
 
-        Long randomFileId = NetworkInitializer.initializeNetwork(inputConfiguration.getSeed(), inputConfiguration.getMaxStep());
+        Long randomFileId = NetworkInitializer.initializeNetwork(inputConfiguration.getSeed(), inputConfiguration.getStepsPerTraining());
 
         List<Result> resultInfo = resultsBehavior.computeResults();
 

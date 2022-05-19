@@ -38,17 +38,12 @@ public class NetworkInitializer {
 
             NetworkIteration networkIteration = new NetworkIteration(seed, maxStep, mdp);
 
-            QLearningDiscreteDense<StateUtil> dql = networkIteration.createQLearningDiscreteDense();
-
-            // train network
-            dql.train();
-            logger.info("=====> Finished training");
-            mdp.close();
+            QLearningDiscreteDense<StateUtil> bestDql = networkIteration.train();
 
 
             // save network
             try {
-                dql.getNeuralNet().save("src/main/resources/" + randomNetworkName);
+                bestDql.getNeuralNet().save("src/main/resources/" + randomNetworkName);
                 logger.info("=====> Saved neural network");
             } catch (IOException e) {
                 e.printStackTrace();
@@ -57,13 +52,5 @@ public class NetworkInitializer {
             return randomId;
     }
 
-    public static QLearningDiscreteDense<StateUtil> createQLearningDiscreteDense(Long seed, int maxStep, Environment mdp) {
-        QLearningDiscreteDense<StateUtil> dql = new QLearningDiscreteDense<>(
-                mdp,
-                NetworkUtil.buildDQNFactory(),
-                NetworkUtil.buildConfig(seed, maxStep)
-        );
-        return dql;
-    }
 
 }

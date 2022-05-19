@@ -36,4 +36,11 @@ class NetworkIterationTest {
 
         assertNotNull(dql);
     }
+
+    @Test
+    public void trainingIteration() {
+
+
+
+    }
 }

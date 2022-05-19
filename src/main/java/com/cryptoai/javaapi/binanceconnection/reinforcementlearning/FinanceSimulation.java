@@ -84,13 +84,16 @@ public class FinanceSimulation {
         return trainingResults;
     }
 
-
     public void setCurrentAmountUSD(float currentAmountUSD) {
         this.currentAmountUSD = currentAmountUSD;
     }
 
     public void setCryptoHeld(float cryptoHeld) {
         this.cryptoHeld = cryptoHeld;
+    }
+
+    public float getLastTrainingValue(){
+        return trainingResults.get(trainingResults.size()-1);
     }
 
 }

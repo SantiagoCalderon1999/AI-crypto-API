@@ -26,11 +26,4 @@ class NetworkInitializerTest {
     @Autowired
     Reward reward;
 
-    @Test
-    void createQLearningDiscreteDenseTest() {
-        Environment mdp = new Environment(trainingHelper, reward);
-        QLearningDiscreteDense<StateUtil> dql = NetworkInitializer.createQLearningDiscreteDense(1234l, 1000, mdp);
-
-        assertNotNull(dql);
-    }
 }

@@ -95,8 +95,6 @@ public class TrainingHelper {
         return new StateUtil(currentObservation);
     }
 
-
-
     public boolean isEpochFinished(){
 
         if (globalStep < 10)
@@ -118,6 +116,10 @@ public class TrainingHelper {
     public float getCloseFromCandlestickByIndex(int index){
         float closePrice = Float.parseFloat(candlestickList.get(index).getClose());
         return closePrice;
+    }
+
+    public float getLastTrainingValue(){
+        return financeSimulation.getLastTrainingValue();
     }
 
 }
