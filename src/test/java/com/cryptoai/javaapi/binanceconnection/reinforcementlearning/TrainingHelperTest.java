@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.swing.plaf.nimbus.State;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -50,37 +51,37 @@ class TrainingHelperTest {
                 "5200",
                 "5600",
                 "15000",
-                1580533200000L));
+                1577836800000L));
         testingList.add(CandlestickCreationHelper.createCandlestick( "5440",
                 "5440",
                 "5200",
                 "5600",
                 "15000",
-                1583038800000L));
+                1580515200000L));
         testingList.add(CandlestickCreationHelper.createCandlestick("5302",
                 "5440",
                 "5200",
                 "5600",
                 "15000",
-                1585717200000L));
+                1583020800000L));
         testingList.add(CandlestickCreationHelper.createCandlestick("5200",
                 "5440",
                 "5200",
                 "5600",
                 "15000",
-                1588309200000L));
+                1585699200000L));
         testingList.add(CandlestickCreationHelper.createCandlestick("5123",
                 "5440",
                 "5200",
                 "5600",
                 "15000",
-                1590987600000L));
+                1588291200000L));
         testingList.add(CandlestickCreationHelper.createCandlestick("4923",
                 "5440",
                 "5200",
                 "5600",
                 "15000",
-                1593579600000L));
+                1590969600000L));
 
         trainingHelper.setCandlestickList(testingList);
     }
@@ -100,20 +101,20 @@ class TrainingHelperTest {
     }
 
     @Test
-    void getDates() {
-
+    void getDates() throws ParseException {
 
         // when
         List<Date> returnedValues = trainingHelper.getDates();
-
+        SimpleDateFormat isoFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        isoFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         // then
         List<Date> expectedList = new ArrayList<>();
-        expectedList.add((new GregorianCalendar(2020, 1, 1)).getTime());
-        expectedList.add((new GregorianCalendar(2020, 2, 1)).getTime());
-        expectedList.add((new GregorianCalendar(2020, 3, 1)).getTime());
-        expectedList.add((new GregorianCalendar(2020, 4, 1)).getTime());
-        expectedList.add((new GregorianCalendar(2020, 5, 1)).getTime());
-        expectedList.add((new GregorianCalendar(2020, 6, 1)).getTime());
+        expectedList.add(isoFormat.parse("2020-01-01T00:00:00"));
+        expectedList.add(isoFormat.parse("2020-02-01T00:00:00"));
+        expectedList.add(isoFormat.parse("2020-03-01T00:00:00"));
+        expectedList.add(isoFormat.parse("2020-04-01T00:00:00"));
+        expectedList.add(isoFormat.parse("2020-05-01T00:00:00"));
+        expectedList.add(isoFormat.parse("2020-06-01T00:00:00"));
 
 
         for (int i = 0; i < expectedList.size(); i++){

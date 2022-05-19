@@ -5,6 +5,7 @@ import com.cryptoai.javaapi.binanceconnection.web.exception.WrongDateFormatExcep
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class DateFormatUtil {
 
@@ -12,6 +13,7 @@ public class DateFormatUtil {
 
         // set the String date format
         SimpleDateFormat dateFormat = new SimpleDateFormat(ConstantsUtil.DATE_FORMAT);
+        dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         // parse Date from String format to Long
         Date theDate = new Date();
 

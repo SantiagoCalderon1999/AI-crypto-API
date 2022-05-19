@@ -12,7 +12,7 @@ class DateFormatUtilTest {
     void convertDateStringToLong() {
 
         String incorrectStringDate = "1-october-2019";
-        Long expectedReturnValue = 1569906000000l;
+        Long expectedReturnValue = 1569888000000l;
 
         assertThat(DateFormatUtil.convertDateStringToLong(incorrectStringDate)).isEqualTo(expectedReturnValue);
 
