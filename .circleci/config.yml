@@ -37,8 +37,6 @@ jobs:
           when: always
       - store_artifacts:
           path: target
-      - store_test_results:
-          path: ~/test-results
 
 
 # Invoke jobs via workflows
