@@ -38,7 +38,7 @@ Project Link: [https://github.com/SantiagoCalderon1999/AI-crypto-API](https://gi
 
 [circleci-shield]: https://circleci.com/gh/SantiagoCalderon1999/AI-crypto-API/tree/main.svg?style=shield
 [circleci-url]: https://circleci.com/gh/SantiagoCalderon1999/AI-crypto-API/tree/main
-[test-coverage-shield]: https://coveralls.io/repos/github/SantiagoCalderon1999/AI-crypto-API/badge.svg?branch=main
+[test-coverage-shield]: https://coveralls.io/repos/github/SantiagoCalderon1999/AI-crypto-API/badge.svg?branch=main&kill_cache=1
 [test-coverage-url]: https://coveralls.io/github/SantiagoCalderon1999/AI-crypto-API?branch=main
 [java-shield]: https://img.shields.io/badge/Java-18-orange
 [java-url]: https://www.oracle.com/java/technologies/javase/jdk18-archive-downloads.html
