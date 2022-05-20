@@ -34,7 +34,7 @@ jobs:
           name: Save test results
           command: |
             mkdir -p ~/jacoco/
-            find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/jacoco/ \;
+            find . -type f -regex ".*/jacoco/.*xml" -exec cp {} ~/jacoco/ \;
             mvn clean test jacoco:report org.eluder.coveralls:coveralls-maven-plugin:report
           when: always
       - store_artifacts:
