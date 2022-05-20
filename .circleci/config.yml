@@ -2,6 +2,8 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
+orbs:
+  coveralls: coveralls/coveralls@1.0.6
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
@@ -13,6 +15,7 @@ jobs:
     # A list of available CircleCI Docker Convenience Images are available here: https://circleci.com/developer/images/image/cimg/openjdk
     docker:
       - image: cimg/openjdk:11.0
+      - image: circleci/node:10.16.0
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
@@ -25,16 +28,20 @@ jobs:
       # Then run your tests!
       - run:
           name: Test
-          command: mvn test
+          command: mvn test jacoco:report coveralls:report
+      #
+      #- run:
+      #    name: Save test results
+      #    command: |
+      #      mkdir -p ~/jacoco/
+      #      find . -type f -regex ".*/jacoco/.*xml" -exec cp {} ~/jacoco/ \;
+      #      mvn clean test jacoco:report org.eluder.coveralls:coveralls-maven-plugin:report
+      #    when: always
+      #- store_artifacts:
+      #    path: target
+      #- store_test_results:
+      #    path: ~/test-results
 
-      - run:
-          name: Save test results
-          command: |
-            mkdir -p ~/test-results/junit/
-            find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/test-results/junit/ \;
-          when: always
-      - store_test_results:
-          path: ~/test-results
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
