@@ -1,5 +1,5 @@
 [![CircleCI][circleci-shield]][circleci-url]
-[![Coverage Status](https://coveralls.io/repos/github/SantiagoCalderon1999/AI-crypto-API/badge.svg?branch=main)](https://coveralls.io/github/SantiagoCalderon1999/AI-crypto-API?branch=main)
+[![Coverage Status][test-coverage-shield]][test-coverage-url]
 [![Java][java-shield]][java-url]
 [![Licence][licence-shield]][licence-url]
 
@@ -25,7 +25,7 @@ This section includes major frameworks/libraries used to create the project.
 ## Usage
 
 Run the JavaAICryptoAPIApplication file and it will create a list of endpoints on the port 8080.
-Once deployed, go redirect to the API documentation:
+Once deployed, go to the API documentation in the following link:
 
 [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
 
@@ -38,8 +38,8 @@ Project Link: [https://github.com/SantiagoCalderon1999/AI-crypto-API](https://gi
 
 [circleci-shield]: https://circleci.com/gh/SantiagoCalderon1999/AI-crypto-API/tree/main.svg?style=shield
 [circleci-url]: https://circleci.com/gh/SantiagoCalderon1999/AI-crypto-API/tree/main
-[test-coverage-shield]: https://img.shields.io/badge/Java-18-orange
-[test-coverage-url]: https://www.oracle.com/java/technologies/javase/jdk18-archive-downloads.html
+[test-coverage-shield]: https://coveralls.io/repos/github/SantiagoCalderon1999/AI-crypto-API/badge.svg?branch=main
+[test-coverage-url]: https://coveralls.io/github/SantiagoCalderon1999/AI-crypto-API?branch=main
 [java-shield]: https://img.shields.io/badge/Java-18-orange
 [java-url]: https://www.oracle.com/java/technologies/javase/jdk18-archive-downloads.html
 [licence-shield]: https://img.shields.io/hexpm/l/apa

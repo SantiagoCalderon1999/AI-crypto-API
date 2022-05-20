@@ -35,14 +35,4 @@ public class Observation {
         return volume;
     }
 
-    @Override
-    public String toString() {
-        return "Observation{" +
-                "open=" + open +
-                ", high=" + high +
-                ", low=" + low +
-                ", close=" + close +
-                ", volume=" + volume +
-                '}';
-    }
 }

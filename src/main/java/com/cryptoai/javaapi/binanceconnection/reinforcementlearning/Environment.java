@@ -80,7 +80,4 @@ public class Environment implements MDP<StateUtil, Integer, DiscreteSpace> {
         return new Environment(trainingHelper, reward);
     }
 
-    public TrainingHelper getCryptoData() {
-        return trainingHelper;
-    }
 }
