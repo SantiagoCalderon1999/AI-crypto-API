@@ -33,7 +33,14 @@ jobs:
       - run:
           name: Save test results
           command: |
+            mkdir -p ~/jacoco/
+            find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/jacoco/ \;
             mvn clean test jacoco:report coveralls:report
+          when: always
+      - store_artifacts:
+          path: target
+      - store_test_results:
+          path: ~/test-results
 
 
 # Invoke jobs via workflows
