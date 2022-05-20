@@ -228,7 +228,6 @@
                             <goal>prepare-agent</goal>
                         </goals>
                         <configuration>
-                            <destFile>${project.reporting.outputDirectory}/jacoco/jacoco.xml</destFile>
                             <propertyName>surefireArgLine</propertyName>
                         </configuration>
                     </execution>
