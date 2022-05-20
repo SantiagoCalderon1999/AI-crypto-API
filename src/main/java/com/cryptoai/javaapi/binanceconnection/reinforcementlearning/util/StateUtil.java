@@ -36,12 +36,6 @@ public class StateUtil implements Encodable {
         return Nd4j.create(createDataArray(inputs)); //
     }
 
-    public INDArray getMatrix() {
-        return Nd4j.create(new double[][] {
-                createDataArray(inputs)
-        });
-    }
-
     @Override
     public Encodable dup() {
         return null;

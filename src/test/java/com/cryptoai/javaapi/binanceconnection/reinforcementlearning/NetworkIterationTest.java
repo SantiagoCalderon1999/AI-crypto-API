@@ -40,7 +40,5 @@ class NetworkIterationTest {
     @Test
     public void trainingIteration() {
 
-
-
     }
 }
