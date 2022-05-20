@@ -30,9 +30,9 @@ jobs:
           name: Test
           command: mvn test
 
-      - run:
-          name: Save test results
-          command: mvn clean test jacoco:report coveralls:report
+      #- run:
+      #    name: Save test results
+      #    command: mvn clean test jacoco:report coveralls:report
 
 
 # Invoke jobs via workflows

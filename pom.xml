@@ -216,7 +216,7 @@
                     </compilerArgs>
                 </configuration>
             </plugin>
-            <plugin>
+          <!--  <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.7.6.201602180812</version>
@@ -237,7 +237,7 @@
                 <configuration>
                     <repoToken>5QmTqmpy1Z5vX2rX9yNpORLgMqYGnfLor</repoToken>
                 </configuration>
-            </plugin>
+            </plugin> -->
 
         </plugins>
     </build>
