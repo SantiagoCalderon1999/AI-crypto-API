@@ -188,6 +188,12 @@
             <version>1.6.4</version>
         </dependency>
 
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>[2.7,)</version>
+        </dependency>
+
     </dependencies>
 
     <build>
