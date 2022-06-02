@@ -36,6 +36,7 @@ Santiago Calderón - [santiagocalderon1999@gmail.com](mailto:santiagocalderon199
 Project Link: [https://github.com/SantiagoCalderon1999/AI-crypto-API](https://github.com/SantiagoCalderon1999/AI-crypto-API)
 
 
+
 [circleci-shield]: https://circleci.com/gh/SantiagoCalderon1999/AI-crypto-API/tree/main.svg?style=shield
 [circleci-url]: https://circleci.com/gh/SantiagoCalderon1999/AI-crypto-API/tree/main
 [test-coverage-shield]: https://coveralls.io/repos/github/SantiagoCalderon1999/AI-crypto-API/badge.svg?branch=main&kill_cache=1
